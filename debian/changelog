@@ -1,3 +1,10 @@
+openjfx (8u40-b25-2) UNRELEASED; urgency=medium
+
+  * Team upload.
+  * Remove build-dep on ksh, which isn't actually required for the build.
+
+ -- tony mancill <tmancill@debian.org>  Sun, 28 Jun 2015 09:44:07 -0700
+
 openjfx (8u40-b25-1) unstable; urgency=medium
 
   * New upstream release
