@@ -98,7 +98,9 @@ License: LGPL-2+
 
 Files: modules/web/src/main/native/*
 Copyright: 1995-2013, various contributors
-License: LGPL-2+ or BSD-2-clause or BSD-3-clause
+License: custom-licence
+ LGPL-2+ or BSD-2-clause or BSD-3-clause
+ .
  This is an embedded copy of the WebKit rendering engine, please see
  the debian/copyright file of the webkitgtk or qtwebkit packages for a detailed
  list of the copyright holders and the applicable licenses.
