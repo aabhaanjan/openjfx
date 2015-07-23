@@ -132,7 +132,7 @@ Forwarded: not-needed
      }
  }
  
-@@ -81,11 +83,11 @@
+@@ -81,11 +83,12 @@
  getConfigurations().create("antlr3");
  
  dependencies {
@@ -142,6 +142,7 @@ Forwarded: not-needed
 -    antlr3      group: "org.antlr", name: "stringtemplate", version: "3.2"
 -    antlr3      group: "org.antlr", name: "antlr",          version: "3.1.3"
 +    compile     group: "org.antlr", name: "antlr",          version: "3.x"
++    compile     group: "org.antlr", name: "stringtemplate", version: "3.x"
 +    testCompile group: "junit",     name: "junit",          version: "4.x"
 +    antlr3      group: "org.antlr", name: "antlr-runtime",  version: "3.x"
 +    antlr3      group: "org.antlr", name: "stringtemplate", version: "3.x"
