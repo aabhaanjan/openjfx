@@ -1,10 +1,10 @@
-openjfx (8u40-b25-3) UNRELEASED; urgency=medium
+openjfx (8u40-b25-3) unstable; urgency=medium
 
   * Fixed a build failure with antlr 3.5.2
   * Set the locale to 'en' when generating the javadoc to improve
     the build reproducibility
 
- -- Emmanuel Bourg <ebourg@apache.org>  Thu, 23 Jul 2015 15:14:41 +0200
+ -- Emmanuel Bourg <ebourg@apache.org>  Thu, 23 Jul 2015 15:38:43 +0200
 
 openjfx (8u40-b25-2) unstable; urgency=medium
 
