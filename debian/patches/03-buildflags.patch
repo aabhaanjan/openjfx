@@ -3,7 +3,7 @@ Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: no
 --- a/buildSrc/linux.gradle
 +++ b/buildSrc/linux.gradle
-@@ -55,7 +55,9 @@
+@@ -54,7 +54,9 @@
          commonFlags, "-I$JDK_HOME/include", "-I$JDK_HOME/include/linux", "-c",
          IS_DEBUG_NATIVE ? ["-ggdb", "-DVERBOSE"] : ["-O2", "-DNDEBUG"]].flatten()
  //ccFlags.addAll(["-Wnon-virtual-dtor", "-Woverloaded-virtual", "-std=c++0x"])
@@ -13,7 +13,7 @@ Forwarded: no
  
  // Create $buildDir/linux_tools.properties file and load props from it
  setupTools("linux_tools",
-@@ -197,7 +199,7 @@
+@@ -196,7 +198,7 @@
  LINUX.iio.compiler = compiler
  LINUX.iio.ccFlags = [ccFlags].flatten()
  LINUX.iio.linker = linker

@@ -3,7 +3,7 @@ Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: not-needed
 --- a/build.gradle
 +++ b/build.gradle
-@@ -1144,12 +1144,8 @@
+@@ -1148,12 +1148,8 @@
      // closed gradle file instead.
      if (!BUILD_CLOSED) {
          repositories {
@@ -18,7 +18,7 @@ Forwarded: not-needed
              }
          }
      }
-@@ -1157,7 +1153,7 @@
+@@ -1161,7 +1157,7 @@
      // By default all of our projects require junit for testing so we can just
      // setup this dependency here.
      dependencies {
@@ -27,7 +27,7 @@ Forwarded: not-needed
          if (BUILD_CLOSED && DO_JCOV)  {
              testCompile name: "jcov"
          }
-@@ -1295,12 +1291,12 @@
+@@ -1299,12 +1295,12 @@
  
      dependencies {
          compile project(":base"), BUILD_SRC
@@ -45,7 +45,7 @@ Forwarded: not-needed
      }
  
      // Create a single "native" task which will depend on all the individual native tasks for graphics
-@@ -1582,9 +1578,9 @@
+@@ -1594,9 +1590,9 @@
              copy {
                  into libsDir
                  from f.getParentFile()
@@ -58,7 +58,7 @@ Forwarded: not-needed
                  includeEmptyDirs = false
              }
              // Have to rename the swt jar because it is some platform specific name but
-@@ -1665,7 +1661,7 @@
+@@ -1680,7 +1676,7 @@
      }
      dependencies {
          compile BUILD_SRC, project(":base"), project(":graphics")
@@ -67,7 +67,7 @@ Forwarded: not-needed
      }
  }
  
-@@ -1781,7 +1777,7 @@
+@@ -1779,7 +1775,7 @@
      }
  
      dependencies {
@@ -76,7 +76,7 @@ Forwarded: not-needed
      }
  
      // When producing the jar, we need to relocate a few class files
-@@ -2044,13 +2040,13 @@
+@@ -2043,13 +2039,13 @@
      classes << {
          // Copy all of the download libraries to libs directory for the sake of the IDEs
          File libsDir = rootProject.file("build/libs");
@@ -92,20 +92,7 @@ Forwarded: not-needed
                  includeEmptyDirs = false
              }
          }
-@@ -2494,10 +2490,12 @@
-         def targetProperties = project.rootProject.ext[t.upper]
-         def classifier = (t.name != "linux" && t.name != "win") ? t.name :
-                           IS_64 ? "${t.name}-amd64" : "${t.name}-i586"
-+/*
-         dependencies {
-             webkit group: "com.sun.webkit", name: "webview-deps",
-                    version: "1.2", classifier: "$classifier", ext: "zip"
-         }
-+*/
- 
-         def webkitOutputDir = "$buildDir/${t.name}"
-         def webkitConfig = IS_DEBUG_NATIVE ? "Debug" : "Release"
-@@ -2505,11 +2503,13 @@
+@@ -2510,11 +2506,13 @@
          def compileNativeTask = task("compileNative${t.capital}", dependsOn: generateHeaders) << {
              println "Building Webkit configuration /$webkitConfig/ into $webkitOutputDir"
              

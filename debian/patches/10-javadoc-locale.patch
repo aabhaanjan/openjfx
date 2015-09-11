@@ -3,7 +3,7 @@ Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: no
 --- a/build.gradle
 +++ b/build.gradle
-@@ -1210,6 +1210,7 @@
+@@ -1214,6 +1214,7 @@
          } else {
              options.links(JDK_DOCS);
          }
