@@ -34,7 +34,7 @@ Build-Depends: antlr3,
                openjdk-8-jdk,
                pkg-config,
                qtchooser,
-               qt4-qmake,
+               qt5-qmake,
                x11proto-core-dev,
                x11proto-xf86vidmode-dev
 Standards-Version: 3.9.6
