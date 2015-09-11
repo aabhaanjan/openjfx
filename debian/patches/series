@@ -7,4 +7,3 @@
 08-disable-sse2.patch
 09-fix-conflicting-uchar32-typedef.patch
 10-javadoc-locale.patch
-#gradle-2.x.patch
