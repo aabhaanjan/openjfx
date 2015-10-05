@@ -11,6 +11,15 @@ export OPENJFX_HOME = /usr/share/java/openjfx
 override_dh_auto_build:
 	dh_auto_build
 	cp debian/gradle.properties .
+
+	# work around a compilation issue with Gradle 2.x
+	mkdir -p modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/dom/
+	mkdir -p modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/perf/
+	cp modules/web/src/main/java/com/sun/webkit/Disposer*            modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/
+	cp modules/web/src/main/java/com/sun/webkit/Invoker.java         modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/
+	cp modules/web/src/main/java/com/sun/webkit/dom/JSObject.java    modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/dom/
+	cp modules/web/src/main/java/com/sun/webkit/perf/PerfLogger.java modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/perf/
+
 	gradle --offline --stacktrace --refresh-dependencies --gradle-user-home .gradle
 
 override_dh_install:
