@@ -3,6 +3,7 @@ openjfx (8u60-b27-1) UNRELEASED; urgency=medium
   * New upstream release
     - Refreshed the patches
     - Build with qt5-qmake instead of qt4-qmake
+  * Depend on GStreamer 1.0 (Closes: #799280)
 
  -- Emmanuel Bourg <ebourg@apache.org>  Mon, 07 Sep 2015 23:40:56 +0200
 
