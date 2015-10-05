@@ -1,0 +1,14 @@
+Description: Dynamic linking against ICU
+Author: Emmanuel Bourg <ebourg@apache.org>
+Forwarded: not-needed
+--- a/modules/web/src/main/native/Source/WebCore/TargetJava.pri
++++ b/modules/web/src/main/native/Source/WebCore/TargetJava.pri
+@@ -231,7 +231,7 @@
+ 
+         # statically link with icu libraries in order to avoid version conflict
+         QMAKE_LFLAGS += `pkg-config --libs-only-L icu-uc`
+-        LIBS += -Wl,-Bstatic -licui18n -licuuc -licudata -Wl,-Bdynamic
++        LIBS += -Wl,-Bdynamic -licui18n -licuuc -licudata -Wl,-Bdynamic
+     }
+     solaris-cc {
+         QMAKE_LFLAGS += -M$$PWD/mapfile-vers
