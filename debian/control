@@ -35,6 +35,7 @@ Build-Depends: antlr3,
                pkg-config,
                qtchooser,
                qt5-qmake,
+               ruby,
                x11proto-core-dev,
                x11proto-xf86vidmode-dev
 Standards-Version: 3.9.6
