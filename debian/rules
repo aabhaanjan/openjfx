@@ -12,6 +12,9 @@ override_dh_auto_build:
 	dh_auto_build
 	cp debian/gradle.properties .
 
+	# replace the non-free JavaScript minifier with a noop equivalent
+	cp debian/jsmin-noop.py modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/jsmin.py
+
 	# work around a compilation issue with Gradle 2.x
 	mkdir -p modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/dom/
 	mkdir -p modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/perf/
@@ -65,6 +68,7 @@ override_dh_auto_clean:
 	rm -Rf modules/jmx/build/
 	rm -Rf tests/system/build/
 	rm -f modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/CodeGeneratorInspectorStrings.pyc
+	rm -f modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/jsmin.py
 
 get-orig-source:
 	uscan --download-current-version --force-download --rename

@@ -5,6 +5,7 @@ openjfx (8u60-b27-1) UNRELEASED; urgency=medium
     - Build with qt5-qmake instead of qt4-qmake
     - New build dependency on ruby
     - Added a patch to link dynamically against ICU
+    - Removed the non-free JavaScript minifier from the upstream tarball
   * Fixed a build failure with Gradle 2.5 (Closes: #795851)
   * Depend on GStreamer 1.0 (Closes: #799280)
 
