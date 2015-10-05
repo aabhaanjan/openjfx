@@ -3,7 +3,7 @@ Upstream-Name: OpenJFX
 Source: http://hg.openjdk.java.net/openjfx/8u-dev/rt/
 
 Files: *
-Copyright: 2014, Oracle Inc.
+Copyright: 2014-2015, Oracle Inc.
 License: GPL-2 with Classpath exception
 
 Files: apps/experiments/ConferenceScheduleApp/*
@@ -12,7 +12,6 @@ Files: apps/experiments/ConferenceScheduleApp/*
        apps/experiments/WebTerminal/*
        apps/performance/GraphicsPerformance/*
        apps/scenebuilder/*
-       tests/golden-image-suite/*
 Copyright: 2008-2014, Oracle Inc.
 License: BSD-3-clause
  Redistribution and use in source and binary forms, with or without
