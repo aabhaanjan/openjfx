@@ -55,7 +55,7 @@ override_dh_auto_clean:
 	rm -Rf modules/web/build/
 	rm -Rf modules/jmx/build/
 	rm -Rf tests/system/build/
-	rm -f modules/web/src/main/native/Source/WebCore/inspector/CodeGeneratorInspectorStrings.pyc
+	rm -f modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/CodeGeneratorInspectorStrings.pyc
 
 get-orig-source:
 	uscan --download-current-version --force-download --rename
