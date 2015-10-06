@@ -5,6 +5,10 @@ DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 export JAVA_HOME    = /usr/lib/jvm/java-8-openjdk-$(DEB_HOST_ARCH)
 export OPENJFX_HOME = /usr/share/java/openjfx
 
+arch_map = alpha=alpha arm=arm armel=arm armhf=arm arm64=aarch64 amd64=amd64 hppa=parisc i386=i586 m68k=m68k mips=mips mipsel=mipsel mips64=mips64 mips64el=mips64el powerpc=ppc powerpcspe=ppc ppc64=ppc64 ppc64el=ppc64le sparc=sparc sparc64=sparc64 sh4=sh s390x=s390x ia64=ia64 m68k=m68k x32=x32
+
+jvmarch := $(strip $(patsubst $(DEB_HOST_ARCH_CPU)=%, %, $(filter $(DEB_HOST_ARCH_CPU)=%, $(arch_map))))
+
 %:
 	dh $@ 
 
@@ -45,7 +49,7 @@ override_dh_install:
 	dh_link -popenjfx $(OPENJFX_HOME)/lib/ant-javafx.jar        $(JAVA_HOME)/lib/ant-javafx.jar
 	dh_link -popenjfx $(OPENJFX_HOME)/lib/javafx-mx.jar         $(JAVA_HOME)/lib/javafx-mx.jar
 
-	dh_install -plibopenjfx-jni build/sdk/rt/lib/$(DEB_HOST_ARCH) $(JAVA_HOME)/jre/lib
+	dh_install -plibopenjfx-jni build/sdk/rt/lib/$(jvmarch) $(JAVA_HOME)/jre/lib
 
 	dh_install -popenjfx-source build/javafx-src.zip $(JAVA_HOME)
 
