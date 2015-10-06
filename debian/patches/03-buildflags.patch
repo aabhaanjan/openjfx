@@ -3,17 +3,28 @@ Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: no
 --- a/buildSrc/linux.gradle
 +++ b/buildSrc/linux.gradle
-@@ -54,7 +54,9 @@
+@@ -45,6 +45,9 @@
+         "-fno-strict-aliasing", "-fPIC", "-fno-omit-frame-pointer", // optimization flags
+         "-W", "-Wall", "-Wno-unused", "-Wno-parentheses", "-Werror=implicit-function-declaration"] // warning flags
+ 
++commonFlags.addAll("dpkg-buildflags --get CPPFLAGS  ".execute().text.trim().split(" "))
++commonFlags.addAll("dpkg-buildflags --get CXXFLAGS".execute().text.trim().split(" "))
++
+ if (!IS_64) {
+     commonFlags += "-m32"
+ }
+@@ -54,7 +57,10 @@
          commonFlags, "-I$JDK_HOME/include", "-I$JDK_HOME/include/linux", "-c",
          IS_DEBUG_NATIVE ? ["-ggdb", "-DVERBOSE"] : ["-O2", "-DNDEBUG"]].flatten()
  //ccFlags.addAll(["-Wnon-virtual-dtor", "-Woverloaded-virtual", "-std=c++0x"])
-+ccFlags.addAll(["-fstack-protector", "--param=ssp-buffer-size=4", "-Wformat", "-Werror=format-security", "-D_FORTIFY_SOURCE=2"])
++ccFlags.addAll("dpkg-buildflags --get CPPFLAGS  ".execute().text.trim().split(" "))
++ccFlags.addAll("dpkg-buildflags --get CXXFLAGS".execute().text.trim().split(" "))
  def linkFlags = ["-shared", commonFlags].flatten()
-+linkFlags.addAll(["-Wl,-z,relro"])
++linkFlags.addAll("dpkg-buildflags --get LDFLAGS".execute().text.trim().split(" "))
  
  // Create $buildDir/linux_tools.properties file and load props from it
  setupTools("linux_tools",
-@@ -196,7 +198,7 @@
+@@ -196,7 +202,7 @@
  LINUX.iio.compiler = compiler
  LINUX.iio.ccFlags = [ccFlags].flatten()
  LINUX.iio.linker = linker
@@ -22,3 +33,55 @@ Forwarded: no
  LINUX.iio.lib = "javafx_iio"
  
  LINUX.prismES2 = [:]
+--- a/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefile
++++ b/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefile
+@@ -58,6 +58,10 @@
+     LDFLAGS += -m32
+ endif
+ 
++CFLAGS  += $(shell dpkg-buildflags --get CPPFLAGS)
++CFLAGS  += $(shell dpkg-buildflags --get CFLAGS)
++LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
++
+ SOURCES = av/fxavcodecplugin.c  \
+           av/avelement.c        \
+           av/decoder.c          \
+--- a/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefile
++++ b/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefile
+@@ -49,6 +49,10 @@
+     LDFLAGS += -m32
+ endif
+ 
++CFLAGS  += $(shell dpkg-buildflags --get CPPFLAGS)
++CFLAGS  += $(shell dpkg-buildflags --get CFLAGS)
++LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
++
+ SOURCES = fxplugins.c                        \
+           progressbuffer/progressbuffer.c    \
+           progressbuffer/hlsprogressbuffer.c \
+--- a/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/Makefile
++++ b/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/Makefile
+@@ -77,6 +77,10 @@
+     LDFLAGS += -m32
+ endif
+ 
++CFLAGS  += $(shell dpkg-buildflags --get CPPFLAGS)
++CFLAGS  += $(shell dpkg-buildflags --get CFLAGS)
++LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
++
+ SOURCES = \
+      gstreamer/gst/gst.c                                             \
+      gstreamer/gst/gstbin.c                                          \
+--- a/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
++++ b/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
+@@ -70,6 +70,10 @@
+     LDFLAGS += -m32
+ endif
+ 
++CFLAGS  += $(shell dpkg-buildflags --get CPPFLAGS)
++CFLAGS  += $(shell dpkg-buildflags --get CFLAGS)
++LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
++
+ CPP_SOURCES = \
+         jni/com_sun_media_jfxmedia_logging_Logger.cpp           \
+         jni/JavaBandsHolder.cpp 				\

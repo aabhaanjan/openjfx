@@ -9,6 +9,8 @@ openjfx (8u60-b27-1ubuntu1) UNRELEASED; urgency=medium
     - Removed the non-free JavaScript minifier from the upstream tarball
   * Fixed a build failure with Gradle 2.5 (Closes: #795851)
   * Depend on GStreamer 1.0 (Closes: #799280)
+  * Enabled hardening for libavplugin.so, libfxplugins.so, libgstreamer-lite.so
+    and libjfxmedia.so
 
   [ Matthias Klose ]
   * Fix installation into the jre architecture directory.
