@@ -15,6 +15,7 @@ openjfx (8u60-b27-1ubuntu1) UNRELEASED; urgency=medium
   [ Matthias Klose ]
   * Fix installation into the jre architecture directory.
   * Enable verbose (debug) build for slow architectures.
+  * Build using the qmake linux-g++ spec.
 
  -- Matthias Klose <doko@ubuntu.com>  Tue, 06 Oct 2015 11:58:43 +0200
 

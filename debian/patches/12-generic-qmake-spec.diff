@@ -1,0 +1,23 @@
+Index: b/build.gradle
+===================================================================
+--- a/build.gradle
++++ b/build.gradle
+@@ -2548,17 +2548,9 @@ project(":web") {
+                         "QMAKE_LFLAGS"   : "-m64",
+                     ])
+                 } else if (t.name == "linux") {
+-                    if (IS_64) {
+                         environment([
+-                            "QMAKESPEC"      : "linux-g++-64",
++                            "QMAKESPEC"      : "linux-g++",
+                         ])
+-                    } else {
+-                        environment([
+-                            "QMAKESPEC"      : "linux-g++-32",
+-                            "QMAKE_CFLAGS"   : "-m32",
+-                            "QMAKE_LFLAGS"   : "-m32",
+-                        ])
+-                    }
+                 } else if (t.name.startsWith("arm")) {
+                     // ARM cross build
+                     def webkitProperties = project.rootProject.ext[t.upper].webkit
