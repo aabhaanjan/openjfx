@@ -10,6 +10,7 @@ endif
 
 export JAVA_HOME    = /usr/lib/jvm/java-8-openjdk-$(DEB_HOST_ARCH)
 export OPENJFX_HOME = /usr/share/java/openjfx
+export QT_SELECT    = qt5
 
 build_arch_map =
 	alpha=alpha arm=arm armel=arm armhf=arm arm64=aarch64 amd64=amd64 hppa=parisc \
