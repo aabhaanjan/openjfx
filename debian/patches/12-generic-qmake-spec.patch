@@ -1,8 +1,9 @@
-Index: b/build.gradle
-===================================================================
+Description: Build using the qmake linux-g++ spec
+Author: Matthias Klose <doko@ubuntu.com>
+Forwarded: no
 --- a/build.gradle
 +++ b/build.gradle
-@@ -2548,17 +2548,9 @@ project(":web") {
+@@ -2548,17 +2548,9 @@
                          "QMAKE_LFLAGS"   : "-m64",
                      ])
                  } else if (t.name == "linux") {

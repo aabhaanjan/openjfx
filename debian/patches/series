@@ -8,4 +8,4 @@
 09-fix-conflicting-uchar32-typedef.patch
 10-javadoc-locale.patch
 11-icu-dynamic-linking.patch
-12-generic-qmake-spec.diff
+12-generic-qmake-spec.patch
