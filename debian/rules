@@ -4,7 +4,7 @@ DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 DEB_HOST_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU)
 
 # gradle runs a long time without output
-ifneq (,$(filter $(DEB_HOST_ARCH), armel armhf mips mipsel))
+ifneq (,$(filter $(DEB_HOST_ARCH), armel armhf arm64 mips mipsel))
   gradle_debug = --debug
 endif
 
