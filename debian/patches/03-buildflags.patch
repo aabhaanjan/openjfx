@@ -1,9 +1,11 @@
 Description: Adjusts the compiler flags to enable the hardening and link to the system libraries
 Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: no
+Index: b/buildSrc/linux.gradle
+===================================================================
 --- a/buildSrc/linux.gradle
 +++ b/buildSrc/linux.gradle
-@@ -45,6 +45,9 @@
+@@ -45,6 +45,9 @@ def commonFlags = [
          "-fno-strict-aliasing", "-fPIC", "-fno-omit-frame-pointer", // optimization flags
          "-W", "-Wall", "-Wno-unused", "-Wno-parentheses", "-Werror=implicit-function-declaration"] // warning flags
  
@@ -13,7 +15,7 @@ Forwarded: no
  if (!IS_64) {
      commonFlags += "-m32"
  }
-@@ -54,7 +57,10 @@
+@@ -54,7 +57,10 @@ def ccFlags = [
          commonFlags, "-I$JDK_HOME/include", "-I$JDK_HOME/include/linux", "-c",
          IS_DEBUG_NATIVE ? ["-ggdb", "-DVERBOSE"] : ["-O2", "-DNDEBUG"]].flatten()
  //ccFlags.addAll(["-Wnon-virtual-dtor", "-Woverloaded-virtual", "-std=c++0x"])
@@ -24,7 +26,7 @@ Forwarded: no
  
  // Create $buildDir/linux_tools.properties file and load props from it
  setupTools("linux_tools",
-@@ -196,7 +202,7 @@
+@@ -196,7 +202,7 @@ LINUX.iio.nativeSource = [
  LINUX.iio.compiler = compiler
  LINUX.iio.ccFlags = [ccFlags].flatten()
  LINUX.iio.linker = linker
@@ -33,55 +35,80 @@ Forwarded: no
  LINUX.iio.lib = "javafx_iio"
  
  LINUX.prismES2 = [:]
+Index: b/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefile
+===================================================================
 --- a/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefile
 +++ b/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefile
-@@ -58,6 +58,10 @@
-     LDFLAGS += -m32
- endif
+@@ -26,11 +26,9 @@ CFLAGS = -fPIC                   \
+          -DGST_DISABLE_LOADSAVE  \
+          -DGSTREAMER_LITE
  
+-ifeq ($(BUILD_TYPE), Release)
+-    CFLAGS += -Os
+-else
+-    CFLAGS += -g -Wall
+-endif
 +CFLAGS  += $(shell dpkg-buildflags --get CPPFLAGS)
-+CFLAGS  += $(shell dpkg-buildflags --get CFLAGS)
++CFLAGS  += $(shell dpkg-buildflags --get CFLAGS) -Wall
 +LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
-+
- SOURCES = av/fxavcodecplugin.c  \
-           av/avelement.c        \
-           av/decoder.c          \
+ 
+ PACKAGES_INCLUDES := $(shell pkg-config --cflags glib-2.0)
+ PACKAGES_LIBS     := $(shell pkg-config --libs glib-2.0 gobject-2.0)
+Index: b/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefile
+===================================================================
 --- a/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefile
 +++ b/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefile
-@@ -49,6 +49,10 @@
-     LDFLAGS += -m32
- endif
+@@ -27,12 +27,9 @@ CFLAGS = -fPIC                   \
+          -DGST_DISABLE_GST_DEBUG \
+          -DGSTREAMER_LITE
  
+-ifeq ($(BUILD_TYPE), Release)
+-    CFLAGS += -Os
+-else
+-    CFLAGS += -g -Wall
+-endif
+-
 +CFLAGS  += $(shell dpkg-buildflags --get CPPFLAGS)
-+CFLAGS  += $(shell dpkg-buildflags --get CFLAGS)
++CFLAGS  += $(shell dpkg-buildflags --get CFLAGS) -Wall
 +LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
-+
- SOURCES = fxplugins.c                        \
-           progressbuffer/progressbuffer.c    \
-           progressbuffer/hlsprogressbuffer.c \
+ 
+ INCLUDES = -I$(SRCBASE_DIR) \
+ 	   $(addprefix -I$(SRCBASE_DIR)/,$(DIRLIST)) \
+Index: b/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/Makefile
+===================================================================
 --- a/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/Makefile
 +++ b/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/Makefile
-@@ -77,6 +77,10 @@
-     LDFLAGS += -m32
- endif
+@@ -48,11 +48,9 @@ CFLAGS =-fPIC                   \
+         -DGST_DISABLE_GST_DEBUG \
+         -DGST_DISABLE_LOADSAVE
  
+-ifeq ($(BUILD_TYPE), Release)
+-    CFLAGS += -Os
+-else
+-    CFLAGS += -g -Wall
+-endif
 +CFLAGS  += $(shell dpkg-buildflags --get CPPFLAGS)
-+CFLAGS  += $(shell dpkg-buildflags --get CFLAGS)
++CFLAGS  += $(shell dpkg-buildflags --get CFLAGS) -Wall
 +LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
-+
- SOURCES = \
-      gstreamer/gst/gst.c                                             \
-      gstreamer/gst/gstbin.c                                          \
+ 
+ INCLUDES = -I$(BASE_DIR)/plugins                          \
+ 	   -I$(SRCBASE_DIR)/projects/build/linux/common   \
+Index: b/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
+===================================================================
 --- a/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
 +++ b/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
-@@ -70,6 +70,10 @@
-     LDFLAGS += -m32
+@@ -59,11 +59,9 @@ else
+ 	LDFLAGS = -Wl,-rpath,\$$ORIGIN -L$(BUILD_DIR) $(EXTRA_LDFLAGS)
  endif
  
+-ifeq ($(BUILD_TYPE), Release)
+-	CFLAGS += -Os
+-else
+-	CFLAGS += -g -Wall -D_DEBUG
+-endif
 +CFLAGS  += $(shell dpkg-buildflags --get CPPFLAGS)
-+CFLAGS  += $(shell dpkg-buildflags --get CFLAGS)
++CFLAGS  += $(shell dpkg-buildflags --get CFLAGS) -Wall
 +LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
-+
- CPP_SOURCES = \
-         jni/com_sun_media_jfxmedia_logging_Logger.cpp           \
-         jni/JavaBandsHolder.cpp 				\
+ 
+ ifeq ($(ARCH), x32)
+     CFLAGS += -m32
