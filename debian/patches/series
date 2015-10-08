@@ -11,3 +11,4 @@
 12-generic-qmake-spec.patch
 fix-arm64-build.patch
 fix-arm32-build.patch
+15-fix-javadoc-refererences.diff
