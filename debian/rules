@@ -8,6 +8,12 @@ ifneq (,$(filter $(DEB_HOST_ARCH), armel armhf arm64 mips mipsel))
   gradle_debug = --debug
 endif
 
+# FIXME: looks like s390x is recognized as a 32bit arch ...
+# more heap on s390x needed
+ifneq (,$(filter $(DEB_HOST_ARCH), s390x))
+  SET_JAVA_OPTS = JAVA_OPTS=-Xmx2304m
+endif
+
 export JAVA_HOME    = /usr/lib/jvm/java-8-openjdk-$(DEB_HOST_ARCH)
 export OPENJFX_HOME = /usr/share/java/openjfx
 export QT_SELECT    = qt5
@@ -38,7 +44,7 @@ override_dh_auto_build:
 	cp modules/web/src/main/java/com/sun/webkit/dom/JSObject.java    modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/dom/
 	cp modules/web/src/main/java/com/sun/webkit/perf/PerfLogger.java modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/perf/
 
-	gradle --offline --stacktrace $(gradle_debug) --refresh-dependencies --gradle-user-home .gradle
+	$(SET_JAVA_OPTS) gradle --offline --stacktrace $(gradle_debug) --refresh-dependencies --gradle-user-home .gradle
 
 override_dh_install:
 	dh_install -i
