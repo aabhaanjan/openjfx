@@ -26,12 +26,18 @@ jvm_arch_map = \
 
 jvm_arch   := $(strip $(patsubst $(DEB_HOST_ARCH_CPU)=%, %, $(filter $(DEB_HOST_ARCH_CPU)=%, $(jvm_arch_map))))
 
+arch_only = $(shell (dh_listpackages | fgrep -q libopenjfx-java-doc) || echo yes)
+
 %:
 	dh $@ 
 
 override_dh_auto_build:
 	dh_auto_build
+ifeq ($(arch_only),yes)
+	cp debian/gradle.properties.arch gradle.properties
+else
 	cp debian/gradle.properties .
+endif
 
 	# replace the non-free JavaScript minifier with a noop equivalent
 	cp debian/jsmin-noop.py modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/jsmin.py
@@ -47,7 +53,9 @@ override_dh_auto_build:
 	$(SET_JAVA_OPTS) gradle --offline --stacktrace $(gradle_debug) --refresh-dependencies --gradle-user-home .gradle
 
 override_dh_install:
+ifneq ($(arch_only),yes)
 	dh_install -i
+endif
 
 	gzip -r -v -n --best build/sdk/man/
 	dh_install -popenjfx build/sdk/bin/* $(JAVA_HOME)/bin
@@ -55,10 +63,12 @@ override_dh_install:
 	dh_link -popenjfx $(JAVA_HOME)/bin/javafxpackager           /usr/bin/javafxpackager
 	dh_link -popenjfx $(JAVA_HOME)/man/man1/javafxpackager.1.gz /usr/share/man/man1/javafxpackager.1.gz
 
+ifneq ($(arch_only),yes)
 	dh_install -plibopenjfx-java build/sdk/lib                  $(OPENJFX_HOME)
 	dh_install -plibopenjfx-java build/sdk/rt/lib/*.jar         $(OPENJFX_HOME)/jre/lib
 	dh_install -plibopenjfx-java build/sdk/rt/lib/*.properties  $(OPENJFX_HOME)/jre/lib
 	dh_install -plibopenjfx-java build/sdk/rt/lib/ext           $(OPENJFX_HOME)/jre/lib
+endif
 
 	dh_link -popenjfx $(OPENJFX_HOME)/jre/lib/jfxswt.jar        $(JAVA_HOME)/jre/lib/jfxswt.jar
 	dh_link -popenjfx $(OPENJFX_HOME)/jre/lib/javafx.properties $(JAVA_HOME)/jre/lib/javafx.properties
@@ -69,7 +79,9 @@ override_dh_install:
 	ls -l build/sdk/rt/lib
 	dh_install -plibopenjfx-jni build/sdk/rt/lib/*/*.so $(JAVA_HOME)/jre/lib/$(jvm_arch)
 
+ifneq ($(arch_only),yes)
 	dh_install -popenjfx-source build/javafx-src.zip $(JAVA_HOME)
+endif
 
 override_dh_auto_clean:
 	dh_auto_clean
