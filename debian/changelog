@@ -1,11 +1,13 @@
 openjfx (8u60-b27-4) UNRELEASED; urgency=medium
 
+  * Team upload.
   * Don't build java docs and sources for arch-only builds.
 
  -- Matthias Klose <doko@ubuntu.com>  Sat, 10 Oct 2015 14:37:15 +0200
 
 openjfx (8u60-b27-3) unstable; urgency=medium
 
+  * Team upload.
   * Kill more -m32 settings.
   * Increase maximum heap space for the s390x build.
 
