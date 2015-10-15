@@ -73,21 +73,8 @@ override_dh_install-indep:
 
 override_dh_auto_clean:
 	rm -f gradle.properties
-	rm -Rf build .gradle buildSrc/.gradle/ buildSrc/build/
-	rm -Rf modules/base/build/
-	rm -Rf modules/graphics/build/
-	rm -Rf modules/controls/build/
-	rm -Rf modules/designTime/build/
-	rm -Rf modules/swing/build/
-	rm -Rf modules/builders/build/
-	rm -Rf modules/extensions/build/
-	rm -Rf modules/fxml/build/
-	rm -Rf modules/fxpackager/build/
-	rm -Rf modules/media/build/
-	rm -Rf modules/swt/build/
-	rm -Rf modules/web/build/
-	rm -Rf modules/jmx/build/
-	rm -Rf tests/system/build/
+	rm -Rf .gradle buildSrc/.gradle
+	find . -maxdepth 3 -name build -type d | xargs -r rm -Rf
 	rm -f modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/CodeGeneratorInspectorStrings.pyc
 	rm -f modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/jsmin.py
 
