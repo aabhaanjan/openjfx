@@ -1,0 +1,3 @@
+junit junit * s/.*/4.x/ * *
+org.antlr antlr* * s/.*/3.x/ * *
+org.antlr stringtemplate * s/.*/3.x/ * *

@@ -3,11 +3,6 @@
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 DEB_HOST_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU)
 
-# gradle runs a long time without output
-ifneq (,$(filter $(DEB_HOST_ARCH), armel armhf arm64 mips mipsel))
-  gradle_debug = --debug
-endif
-
 # FIXME: looks like s390x is recognized as a 32bit arch ...
 # more heap on s390x needed
 ifneq (,$(filter $(DEB_HOST_ARCH), s390x))
@@ -29,10 +24,9 @@ jvm_arch   := $(strip $(patsubst $(DEB_HOST_ARCH_CPU)=%, %, $(filter $(DEB_HOST_
 arch_only = $(shell (dh_listpackages | fgrep -q libopenjfx-java-doc) || echo yes)
 
 %:
-	dh $@ 
+	dh $@ --buildsystem=gradle
 
 override_dh_auto_build:
-	dh_auto_build
 ifeq ($(arch_only),yes)
 	cp debian/gradle.properties.arch gradle.properties
 else
@@ -50,7 +44,7 @@ endif
 	cp modules/web/src/main/java/com/sun/webkit/dom/JSObject.java    modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/dom/
 	cp modules/web/src/main/java/com/sun/webkit/perf/PerfLogger.java modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/perf/
 
-	$(SET_JAVA_OPTS) gradle --offline --stacktrace $(gradle_debug) --refresh-dependencies --gradle-user-home .gradle
+	$(SET_JAVA_OPTS) dh_auto_build -- sdk
 
 override_dh_install:
 ifneq ($(arch_only),yes)
@@ -84,7 +78,6 @@ ifneq ($(arch_only),yes)
 endif
 
 override_dh_auto_clean:
-	dh_auto_clean
 	rm -f gradle.properties
 	rm -Rf build .gradle buildSrc/.gradle/ buildSrc/build/
 	rm -Rf modules/base/build/

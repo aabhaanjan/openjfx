@@ -1,3 +1,10 @@
+openjfx (8u60-b27-5) UNRELEASED; urgency=medium
+
+  * Team upload.
+  * Build with gradle-debian-helper
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Thu, 15 Oct 2015 21:56:59 +0200
+
 openjfx (8u60-b27-4) unstable; urgency=medium
 
   * Team upload.
