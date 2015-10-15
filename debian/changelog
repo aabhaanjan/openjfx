@@ -1,4 +1,4 @@
-openjfx (8u60-b27-4) UNRELEASED; urgency=medium
+openjfx (8u60-b27-4) unstable; urgency=medium
 
   * Team upload.
   * Don't build java docs and sources for arch-only builds.
