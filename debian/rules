@@ -21,17 +21,11 @@ jvm_arch_map = \
 
 jvm_arch   := $(strip $(patsubst $(DEB_HOST_ARCH_CPU)=%, %, $(filter $(DEB_HOST_ARCH_CPU)=%, $(jvm_arch_map))))
 
-arch_only = $(shell (dh_listpackages | fgrep -q libopenjfx-java-doc) || echo yes)
-
 %:
 	dh $@ --buildsystem=gradle
 
-override_dh_auto_build:
-ifeq ($(arch_only),yes)
-	cp debian/gradle.properties.arch gradle.properties
-else
+override_dh_auto_build-arch:
 	cp debian/gradle.properties .
-endif
 
 	# replace the non-free JavaScript minifier with a noop equivalent
 	cp debian/jsmin-noop.py modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/jsmin.py
@@ -44,25 +38,19 @@ endif
 	cp modules/web/src/main/java/com/sun/webkit/dom/JSObject.java    modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/dom/
 	cp modules/web/src/main/java/com/sun/webkit/perf/PerfLogger.java modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/perf/
 
-	$(SET_JAVA_OPTS) dh_auto_build -- sdk
+	$(SET_JAVA_OPTS) dh_auto_build -- sdk -x javadoc -x src
 
-override_dh_install:
-ifneq ($(arch_only),yes)
-	dh_install -i
-endif
+override_dh_auto_build-indep:
+	$(SET_JAVA_OPTS) dh_auto_build -- javadoc src
+
+override_dh_install-arch:
+	dh_install -a
 
 	gzip -r -v -n --best build/sdk/man/
 	dh_install -popenjfx build/sdk/bin/* $(JAVA_HOME)/bin
 	dh_install -popenjfx build/sdk/man   $(JAVA_HOME)
 	dh_link -popenjfx $(JAVA_HOME)/bin/javafxpackager           /usr/bin/javafxpackager
 	dh_link -popenjfx $(JAVA_HOME)/man/man1/javafxpackager.1.gz /usr/share/man/man1/javafxpackager.1.gz
-
-ifneq ($(arch_only),yes)
-	dh_install -plibopenjfx-java build/sdk/lib                  $(OPENJFX_HOME)
-	dh_install -plibopenjfx-java build/sdk/rt/lib/*.jar         $(OPENJFX_HOME)/jre/lib
-	dh_install -plibopenjfx-java build/sdk/rt/lib/*.properties  $(OPENJFX_HOME)/jre/lib
-	dh_install -plibopenjfx-java build/sdk/rt/lib/ext           $(OPENJFX_HOME)/jre/lib
-endif
 
 	dh_link -popenjfx $(OPENJFX_HOME)/jre/lib/jfxswt.jar        $(JAVA_HOME)/jre/lib/jfxswt.jar
 	dh_link -popenjfx $(OPENJFX_HOME)/jre/lib/javafx.properties $(JAVA_HOME)/jre/lib/javafx.properties
@@ -73,9 +61,15 @@ endif
 	ls -l build/sdk/rt/lib
 	dh_install -plibopenjfx-jni build/sdk/rt/lib/*/*.so $(JAVA_HOME)/jre/lib/$(jvm_arch)
 
-ifneq ($(arch_only),yes)
+override_dh_install-indep:
+	dh_install -i
+
+	dh_install -plibopenjfx-java build/sdk/lib                  $(OPENJFX_HOME)
+	dh_install -plibopenjfx-java build/sdk/rt/lib/*.jar         $(OPENJFX_HOME)/jre/lib
+	dh_install -plibopenjfx-java build/sdk/rt/lib/*.properties  $(OPENJFX_HOME)/jre/lib
+	dh_install -plibopenjfx-java build/sdk/rt/lib/ext           $(OPENJFX_HOME)/jre/lib
+
 	dh_install -popenjfx-source build/javafx-src.zip $(JAVA_HOME)
-endif
 
 override_dh_auto_clean:
 	rm -f gradle.properties

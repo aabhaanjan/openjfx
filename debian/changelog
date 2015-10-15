@@ -2,6 +2,7 @@ openjfx (8u60-b27-5) UNRELEASED; urgency=medium
 
   * Team upload.
   * Build with gradle-debian-helper
+  * Use override_dh_*-{arch,indep} to split the arch all/any operations
 
  -- Emmanuel Bourg <ebourg@apache.org>  Thu, 15 Oct 2015 21:56:59 +0200
 
