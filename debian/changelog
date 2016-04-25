@@ -1,3 +1,15 @@
+openjfx (8u40-b25-1~bpo8+2) jessie-backports; urgency=medium
+
+  * Rebuild with libjpeg62-turbo instead of libjpeg8 on amd64
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Sun, 24 May 2015 22:06:14 +0200
+
+openjfx (8u40-b25-1~bpo8+1) jessie-backports; urgency=medium
+
+  * Rebuild for jessie-backports.
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Sat, 16 May 2015 22:11:26 +0200
+
 openjfx (8u40-b25-1) unstable; urgency=medium
 
   * New upstream release
