@@ -6,6 +6,7 @@ openjfx (8u60-b27-5) UNRELEASED; urgency=medium
   * Simplified the clean target
   * Updated debian/watch
   * Standards-Version updated to 3.9.8 (no changes)
+  * Use secure Vcs-* URLs
 
  -- Emmanuel Bourg <ebourg@apache.org>  Thu, 15 Oct 2015 21:56:59 +0200
 
