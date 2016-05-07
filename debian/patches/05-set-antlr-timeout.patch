@@ -3,7 +3,7 @@ Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: no
 --- a/buildSrc/build.gradle
 +++ b/buildSrc/build.gradle
-@@ -117,7 +117,7 @@
+@@ -115,7 +115,7 @@
      def grammars = fileTree(src).include("**/*.g")
      main = "org.antlr.Tool"
      classpath = configurations.antlr3

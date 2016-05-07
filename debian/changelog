@@ -1,6 +1,8 @@
-openjfx (8u60-b27-5) UNRELEASED; urgency=medium
+openjfx (8u91-b14-1) UNRELEASED; urgency=medium
 
   * Team upload.
+  * New upstream release
+    - Refreshed the patches
   * Build with gradle-debian-helper
   * Use override_dh_*-{arch,indep} to split the arch all/any operations
   * Simplified the clean target
