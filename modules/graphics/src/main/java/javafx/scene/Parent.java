@@ -262,7 +262,7 @@ public abstract class Parent extends Node {
                     // update the parent and scene for each new node
                     for (int i = from; i < to; ++i) {
                         Node node = children.get(i);
-                        if (node.isManaged()) {
+                        if (node.isManaged() || (node instanceof Parent && ((Parent) node).layoutFlag != LayoutFlags.CLEAN)) {
                             relayout = true;
                         }
                         node.setParent(Parent.this);
@@ -497,7 +497,10 @@ public abstract class Parent extends Node {
                         old.setParent(null);
                         old.setScenes(null, null);
                     }
-                    if (!removedChildrenOptimizationDisabled) {
+                    // Do not add node with null scene to the removed list.
+                    // It will not be processed in the list and its memory
+                    // will not be freed.
+                    if (scene != null && !removedChildrenOptimizationDisabled) {
                         removed.add(old);
                     }
                 }
@@ -653,6 +656,11 @@ public abstract class Parent extends Node {
         if (oldScene != null && newScene == null) {
             // RT-34863 - clean up CSS cache when Parent is removed from scene-graph
             StyleManager.getInstance().forget(this);
+
+            // Clear removed list on parent who is no longer in a scene
+            if (removed != null) {
+                removed.clear();
+            }
         }
 
         for (int i=0; i<children.size(); i++) {
@@ -1056,7 +1064,7 @@ public abstract class Parent extends Node {
 
     /**
      * Executes a top-down layout pass on the scene graph under this parent.
-     * 
+     *
      * Calling this method while the Parent is doing layout is a no-op.
      */
     public final void layout() {
@@ -1069,7 +1077,7 @@ public abstract class Parent extends Node {
                      * while doing the layout.
                      * One example might be an invocation from Group layout bounds recalculation
                      *  (e.g. during the localToScene/localToParent calculation).
-                     * The layout bounds will thus return layout bounds that are "old" (i.e. before the layout changes, that are just being done), 
+                     * The layout bounds will thus return layout bounds that are "old" (i.e. before the layout changes, that are just being done),
                      * which is likely what the code would expect.
                      * The changes will invalidate the layout bounds again however, so the layout bounds query after layout pass will return correct answer.
                      */
@@ -1810,7 +1818,7 @@ public abstract class Parent extends Node {
         }
         super.releaseAccessible();
     }
-       
+
     /**
      * Note: The only user of this method is in unit test: Parent_structure_sync_Test.
      */

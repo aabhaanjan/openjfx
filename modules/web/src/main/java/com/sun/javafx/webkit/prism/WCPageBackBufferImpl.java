@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -46,7 +46,7 @@ final class WCPageBackBufferImpl extends WCPageBackBuffer implements ResourceFac
     WCPageBackBufferImpl(float pixelScale) {
         this.pixelScale = pixelScale;
     }
-    
+
     private static RTTexture createTexture(int w, int h) {
         return GraphicsPipeline.getDefaultResourceFactory()
                 .createRTTexture(w, h, Texture.WrapMode.CLAMP_NOT_NEEDED);
@@ -63,8 +63,10 @@ final class WCPageBackBufferImpl extends WCPageBackBuffer implements ResourceFac
     }
 
     public void flush(final WCGraphicsContext gc, int x, int y, final int w, final int h) {
-        ((Graphics) gc.getPlatformGraphics()).drawTexture(texture, x, y, w, h,
-                x * pixelScale, y * pixelScale, w * pixelScale, h * pixelScale);
+        int x2 = x + w;
+        int y2 = y + h;
+        ((Graphics) gc.getPlatformGraphics()).drawTexture(texture, x, y, x2, y2,
+                x * pixelScale, y * pixelScale, x2 * pixelScale, y2 * pixelScale);
         texture.unlock();
     }
 

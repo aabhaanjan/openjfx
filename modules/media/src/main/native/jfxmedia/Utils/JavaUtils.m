@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -28,30 +28,36 @@
 NSString *NSStringFromJavaString(JNIEnv *env, jstring js)
 {
     NSString *outString = nil;
-    
+
     if (NULL != env && 0 != js) {
         jboolean isCopy = JNI_FALSE;
         const jchar *jsChars = (*env)->GetStringChars(env, js, &isCopy);
-        
+
         outString = [NSString stringWithCharacters:(const unichar *)jsChars
                                             length:(*env)->GetStringLength(env, js)];
         (*env)->ReleaseStringChars(env, js, jsChars);
     }
-    
+
     return outString;
 }
 
 jstring JavaStringFromNSString(JNIEnv *env, NSString *ns)
 {
     jstring outString = 0;
-    
+
     if (NULL != env && nil != ns) {
-        NSInteger length = [ns length];
+        jsize length;
+        if (ns.length > INT32_MAX) {
+            // overflow protection: NSUInteger is 64 bit ulong, jsize is 32 bit int
+            length = INT32_MAX-1;
+        } else {
+            length = (jsize)ns.length;
+        }
         unichar *strBuf = malloc(length * sizeof(unichar));
         if (!strBuf) {
             return 0;
         }
-        
+
         @try {
             [ns getCharacters:strBuf range:NSMakeRange(0, length)];
         }
@@ -59,11 +65,11 @@ jstring JavaStringFromNSString(JNIEnv *env, NSString *ns)
             free(strBuf);
             return 0;
         }
-        
+
         outString = (*env)->NewString(env, strBuf, length);
         free(strBuf);
     }
-    
+
     return outString;
 }
 

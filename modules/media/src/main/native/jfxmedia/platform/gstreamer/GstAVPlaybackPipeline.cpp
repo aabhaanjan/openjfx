@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -292,12 +292,19 @@ void CGstAVPlaybackPipeline::OnAppSinkPreroll(GstElement* pElem, CGstAVPlaybackP
     // Send frome 0 up to use as poster frame.
     if(pPipeline->m_pEventDispatcher != NULL)
     {
-        CVideoFrame* pVideoFrame = new CGstVideoFrame(pBuffer);
-        if (!pPipeline->m_pEventDispatcher->SendNewFrameEvent(pVideoFrame))
-        {
-            if (!pPipeline->m_pEventDispatcher->SendPlayerMediaErrorEvent(ERROR_JNI_SEND_NEW_FRAME_EVENT))
+        CGstVideoFrame* pVideoFrame = new CGstVideoFrame(pBuffer);
+        if (pVideoFrame->IsValid()) {
+            if (!pPipeline->m_pEventDispatcher->SendNewFrameEvent(pVideoFrame))
             {
-                LOGGER_LOGMSG(LOGGER_ERROR, "Cannot send media error event.\n");
+                if (!pPipeline->m_pEventDispatcher->SendPlayerMediaErrorEvent(ERROR_JNI_SEND_NEW_FRAME_EVENT))
+                {
+                    LOGGER_LOGMSG(LOGGER_ERROR, "Cannot send media error event.\n");
+                }
+            }
+        } else {
+            delete pVideoFrame;
+            if (pPipeline->m_pEventDispatcher != NULL) {
+                pPipeline->m_pEventDispatcher->Warning(WARNING_GSTREAMER_INVALID_FRAME, "Invalid frame");
             }
         }
     }

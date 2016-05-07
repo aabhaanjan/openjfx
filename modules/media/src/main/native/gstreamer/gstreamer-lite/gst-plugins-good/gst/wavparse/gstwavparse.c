@@ -200,8 +200,8 @@ static void
 gst_wavparse_init (GstWavParse * wavparse, GstWavParseClass * g_class)
 {
 #ifdef GSTREAMER_LITE
-	GstElementClass *klass = GST_ELEMENT_GET_CLASS (wavparse);
-	GstPadTemplate *src_template;
+    GstElementClass *klass = GST_ELEMENT_GET_CLASS (wavparse);
+    GstPadTemplate *src_template;
 #endif // GSTREAMER_LITE
 
   gst_wavparse_reset (wavparse);
@@ -237,7 +237,7 @@ gst_wavparse_init (GstWavParse * wavparse, GstWavParseClass * g_class)
       GST_DEBUG_FUNCPTR (gst_wavparse_pad_query));
   gst_pad_set_event_function (wavparse->srcpad,
       GST_DEBUG_FUNCPTR (gst_wavparse_srcpad_event));
-	gst_element_add_pad (GST_ELEMENT_CAST (wavparse), wavparse->srcpad);
+    gst_element_add_pad (GST_ELEMENT_CAST (wavparse), wavparse->srcpad);
 #else // GSTREAMER_LITE
   /* src, will be created later */
   wavparse->srcpad = NULL;
@@ -1436,6 +1436,11 @@ gst_wavparse_stream_headers (GstWavParse * wav)
             }
             gst_adapter_flush (wav->adapter, 8);
             data = gst_adapter_peek (wav->adapter, data_size);
+#ifdef GSTREAMER_LITE
+            if (data == NULL) {
+                goto header_read_error;
+            }
+#endif // GSTREAMER_LITE
             wav->fact = GST_READ_UINT32_LE (data);
             gst_adapter_flush (wav->adapter, GST_ROUND_UP_2 (size));
           } else {
@@ -2632,7 +2637,7 @@ gst_wavparse_pad_query (GstPad * pad, GstQuery * query)
 }
 
 #ifdef GSTREAMER_LITE
-static const GstQueryType* 
+static const GstQueryType*
 gst_wavparse_sink_query_types (GstPad* pad)
 {
   static const GstQueryType query_types[] = {
@@ -2643,19 +2648,19 @@ gst_wavparse_sink_query_types (GstPad* pad)
   return query_types;
 }
 
-static gboolean 
+static gboolean
 gst_wavparse_sink_query (GstPad* pad, GstQuery* query)
 {
     gboolean result = TRUE;
-    switch (GST_QUERY_TYPE(query)) 
+    switch (GST_QUERY_TYPE(query))
     {
         case GST_QUERY_CUSTOM:
         {
             GstStructure *s = gst_query_get_structure(query);
             if (gst_structure_has_name(s, GETRANGE_QUERY_NAME))
-                gst_structure_set(s, GETRANGE_QUERY_SUPPORTS_FIELDNANE, 
-                                     GETRANGE_QUERY_SUPPORTS_FIELDTYPE, 
-                                     TRUE, 
+                gst_structure_set(s, GETRANGE_QUERY_SUPPORTS_FIELDNANE,
+                                     GETRANGE_QUERY_SUPPORTS_FIELDTYPE,
+                                     TRUE,
                                      NULL);
             break;
         }
