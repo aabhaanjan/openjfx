@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -79,7 +79,7 @@ public class BeanAdapter extends AbstractMap<String, Object> {
         }
 
     }
-    
+
     private static final HashMap<Class<?>, MethodCache> globalMethodCache =
         new HashMap<>();
 
@@ -463,12 +463,13 @@ public class BeanAdapter extends AbstractMap<String, Object> {
                 coercedValue = new BigDecimal(value.toString());
             }
         } else if (type == Class.class) {
-            try {   
-                ReflectUtil.checkPackageAccess(value.toString());
+            try {
+                final String className = value.toString();
+                ReflectUtil.checkPackageAccess(className);
                 final ClassLoader cl = Thread.currentThread().getContextClassLoader();
                 coercedValue = Class.forName(
-                        value.toString(), 
-                        false, 
+                        className,
+                        false,
                         cl);
             } catch (ClassNotFoundException exception) {
                 throw new IllegalArgumentException(exception);
@@ -480,7 +481,7 @@ public class BeanAdapter extends AbstractMap<String, Object> {
             while (valueOfMethod == null
                 && valueType != null) {
                 try {
-                    ReflectUtil.checkPackageAccess(type); 
+                    ReflectUtil.checkPackageAccess(type);
                     valueOfMethod = type.getDeclaredMethod(VALUE_OF_METHOD_NAME, valueType);
                 } catch (NoSuchMethodException exception) {
                     // No-op

@@ -158,7 +158,7 @@ public class Locator {
         }
         return locatorConnection;
     }
-    
+
     private static long getContentLengthLong(URLConnection connection) {
         Method method = AccessController.doPrivileged((PrivilegedAction<Method>) () -> {
             try {
@@ -167,7 +167,7 @@ public class Locator {
                 return null;
             }
         });
-        
+
         try {
             if (method != null) {
                 return (long) method.invoke(connection);
@@ -229,12 +229,12 @@ public class Locator {
         }
 
         // Verify the protocol is supported.
-        if (!isIpod && !protocol.equals("file") && !protocol.equals("http")) {
+        if (!isIpod && !MediaManager.canPlayProtocol(protocol)) {
             throw new UnsupportedOperationException("Unsupported protocol \"" + protocol + "\"");
         }
 
         // Check if we can block
-        if (protocol.equals("http")) {
+        if (protocol.equals("http") || protocol.equals("https")) {
             canBlock = true;
         }
 
@@ -343,7 +343,7 @@ public class Locator {
                 if (protocol.equals("file")) {
                     // Map file:/somepath to file:///somepath
                     uriString = uriString.replaceFirst("/", "///");
-                } else if (protocol.equals("http")) {
+                } else if (protocol.equals("http") || protocol.equals("https")) {
                     // Map http:/somepath to http://somepath
                     uriString = uriString.replaceFirst("/", "//");
                 }
@@ -386,7 +386,7 @@ public class Locator {
                 for (int numConnectionAttempts = 0; numConnectionAttempts < MAX_CONNECTION_ATTEMPTS; numConnectionAttempts++) {
                     try {
                         // Verify existence.
-                        if (scheme.equals("http")) {
+                        if (scheme.equals("http") || scheme.equals("https")) {
                             // Check ability to connect, trying HEAD before GET.
                             LocatorConnection locatorConnection = getConnection(uri, "HEAD");
                             if (locatorConnection == null || locatorConnection.connection == null) {
@@ -518,7 +518,7 @@ public class Locator {
         }
         return contentLength;
     }
-    
+
     /**
      * Blocks until locator is ready (connection is established or failed).
      */

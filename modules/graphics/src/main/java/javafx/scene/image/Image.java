@@ -56,6 +56,9 @@ import com.sun.javafx.runtime.async.AsyncOperationListener;
 import com.sun.javafx.tk.ImageLoader;
 import com.sun.javafx.tk.PlatformImage;
 import com.sun.javafx.tk.Toolkit;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyValue;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * The {@code Image} class represents graphical images and is used for loading
@@ -125,7 +128,7 @@ public class Image {
             public boolean isAnimation(Image image) {
                 return image.isAnimation();
             }
-            
+
             @Override
             public ReadOnlyObjectProperty<PlatformImage>
                     getImageProperty(Image image)
@@ -535,7 +538,7 @@ public class Image {
     public final Object impl_getPlatformImage() {
         return platformImage == null ? null : platformImage.get();
     }
-    
+
     final ReadOnlyObjectProperty<PlatformImage> acc_platformImageProperty() {
         return platformImagePropertyImpl();
     }
@@ -557,6 +560,7 @@ public class Image {
         private final String name;
 
         private T value;
+        private boolean valid = true;
 
         public ObjectPropertyImpl(final String name) {
             this.name = name;
@@ -569,7 +573,7 @@ public class Image {
         public void set(final T value) {
             if (this.value != value) {
                 this.value = value;
-                fireValueChangedEvent();
+                markInvalid();
             }
         }
 
@@ -578,8 +582,16 @@ public class Image {
             super.fireValueChangedEvent();
         }
 
+        private void markInvalid() {
+            if (valid) {
+                valid = false;
+                fireValueChangedEvent();
+            }
+        }
+
         @Override
         public T get() {
+            valid = true;
             return value;
         }
 
@@ -719,7 +731,7 @@ public class Image {
     /**
      * Package private internal constructor used only by {@link WritableImage}.
      * The dimensions must both be positive numbers <code>(&gt;&nbsp;0)</code>.
-     * 
+     *
      * @param width the width of the empty image
      * @param height the height of the empty image
      * @throws IllegalArgumentException if either dimension is negative or zero.
@@ -839,7 +851,7 @@ public class Image {
         for (int i = 0; i < frameCount; ++i) {
             animFrames[i] = loader.getFrame(i);
         }
-        
+
         PlatformImage zeroFrame = loader.getFrame(0);
 
         double w = loader.getWidth() / zeroFrame.getPixelScale();
@@ -853,6 +865,12 @@ public class Image {
     private static final class Animation {
         final WeakReference<Image> imageRef;
         final Timeline timeline;
+        final SimpleIntegerProperty frameIndex = new SimpleIntegerProperty() {
+            @Override
+            protected void invalidated() {
+                updateImage(get());
+            }
+        };
 
         public Animation(final Image image, final ImageLoader loader) {
             imageRef = new WeakReference<Image>(image);
@@ -894,7 +912,7 @@ public class Image {
         private void addKeyFrame(final int index, final double duration) {
             timeline.getKeyFrames().add(
                     new KeyFrame(Duration.millis(duration),
-                            event -> updateImage(index)
+                            new KeyValue(frameIndex, index, Interpolator.DISCRETE)
                     ));
         }
     }
@@ -1150,7 +1168,7 @@ public class Image {
      * there was an error.
      * This method may also return null for some images in a format that
      * is not supported for reading and writing pixels to.
-     * 
+     *
      * @return the {@code PixelReader} for reading the pixel data of the image
      * @since JavaFX 2.2
      */

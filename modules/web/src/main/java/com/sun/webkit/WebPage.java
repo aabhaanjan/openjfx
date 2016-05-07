@@ -121,7 +121,7 @@ public final class WebPage {
     // The current frame being generated.
     // Accessed on: Event thread only.
     private RenderFrame currentFrame = new RenderFrame();
-    
+
     // An ID of the current updateContent cycle associated with an updateContent call.
     private int updateContentCycleID;
 
@@ -168,7 +168,7 @@ public final class WebPage {
         hostWindow = new WCFrameView(this);
         pPage = twkCreatePage(editable);
 
-        twkInit(pPage, false);
+        twkInit(pPage, false, WCGraphicsManager.getGraphicsManager().getDevicePixelScale());
 
         if (pageClient != null && pageClient.isBackBufferSupported()) {
             backbuffer = pageClient.createBackBuffer();
@@ -588,7 +588,7 @@ public final class WebPage {
         lockPage();
         try {
             ++updateContentCycleID;
-            
+
             paintLog.log(Level.FINEST, "toPaint: {0}", toPaint);
             if (isDisposed) {
                 paintLog.fine("updateContent() request for a disposed web page.");
@@ -600,7 +600,7 @@ public final class WebPage {
             unlockPage();
         }
     }
-    
+
     public int getUpdateContentCycleID() {
         return updateContentCycleID;
     }
@@ -630,7 +630,7 @@ public final class WebPage {
                 twkUpdateContent(getPage(), rq, x, y, w, h);
             }, null);
             Invoker.getInvoker().invokeOnEventThread(f);
-            
+
             try {
                 // block until job is complete
                 f.get();
@@ -2419,7 +2419,7 @@ public final class WebPage {
     // *************************************************************************
 
     private native long twkCreatePage(boolean editable);
-    private native void twkInit(long pPage, boolean usePlugins);
+    private native void twkInit(long pPage, boolean usePlugins, float devicePixelScale);
     private native void twkDestroyPage(long pPage);
 
     private native long twkGetMainFrame(long pPage);

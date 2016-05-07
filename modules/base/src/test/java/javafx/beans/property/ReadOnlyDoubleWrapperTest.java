@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -45,14 +45,14 @@ public class ReadOnlyDoubleWrapperTest {
     private static final double VALUE_1 = Math.PI;
     private static final double VALUE_2 = Math.E;
     private static final double EPSILON = 1e-12;
-    
+
     private ReadOnlyDoubleWrapperMock property;
     private ReadOnlyDoubleProperty readOnlyProperty;
     private InvalidationListenerMock internalInvalidationListener;
     private InvalidationListenerMock publicInvalidationListener;
     private ChangeListenerMock<Number> internalChangeListener;
     private ChangeListenerMock<Number> publicChangeListener;
-    
+
     @Before
     public void setUp() throws Exception {
         property = new ReadOnlyDoubleWrapperMock();
@@ -62,7 +62,7 @@ public class ReadOnlyDoubleWrapperTest {
         internalChangeListener = new ChangeListenerMock<Number>(UNDEFINED);
         publicChangeListener = new ChangeListenerMock<Number>(UNDEFINED);
     }
-    
+
     private void attachInvalidationListeners() {
         property.addListener(internalInvalidationListener);
         readOnlyProperty.addListener(publicInvalidationListener);
@@ -98,7 +98,7 @@ public class ReadOnlyDoubleWrapperTest {
         assertEquals(null, r1.getBean());
         assertEquals("", r1.getName());
     }
-    
+
     @Test
     public void testConstructor_InitialValue() {
         final ReadOnlyDoubleWrapper p1 = new ReadOnlyDoubleWrapper(VALUE_1);
@@ -113,7 +113,7 @@ public class ReadOnlyDoubleWrapperTest {
         assertEquals(null, r1.getBean());
         assertEquals("", r1.getName());
     }
-    
+
     @Test
     public void testConstructor_Bean_Name() {
         final Object bean = new Object();
@@ -130,7 +130,7 @@ public class ReadOnlyDoubleWrapperTest {
         assertEquals(bean, r1.getBean());
         assertEquals(name, r1.getName());
     }
-    
+
     @Test
     public void testConstructor_Bean_Name_InitialValue() {
         final Object bean = new Object();
@@ -151,15 +151,15 @@ public class ReadOnlyDoubleWrapperTest {
     @Test
     public void testLazySet() {
         attachInvalidationListeners();
-        
+
         // set value once
         property.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
-        
+
         // set same value again
         property.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
@@ -167,62 +167,62 @@ public class ReadOnlyDoubleWrapperTest {
         internalInvalidationListener.check(null, 0);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(null, 0);
-        
+
         // set value twice without reading
         property.set(VALUE_2);
         property.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
     }
-    
+
     @Test
     public void testInternalEagerSet() {
         attachInternalChangeListener();
-        
+
         // set value once
         property.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(1);
-        internalChangeListener.check(readOnlyProperty, DEFAULT, VALUE_1, 1);
+        internalChangeListener.check(property, DEFAULT, VALUE_1, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
-        
+
         // set same value again
         property.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(0);
         internalChangeListener.check(null, UNDEFINED, UNDEFINED, 0);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
-        
+
         // set value twice without reading
         property.set(VALUE_2);
         property.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(2);
-        internalChangeListener.check(readOnlyProperty, VALUE_2, VALUE_1, 2);
+        internalChangeListener.check(property, VALUE_2, VALUE_1, 2);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
     }
-    
+
     @Test
     public void testPublicEagerSet() {
         attachPublicChangeListener();
-        
+
         // set value once
         property.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicChangeListener.check(readOnlyProperty, DEFAULT, VALUE_1, 1);
-        
+
         // set same value again
         property.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(0);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicChangeListener.check(null, UNDEFINED, UNDEFINED, 0);
-        
+
         // set value twice without reading
         property.set(VALUE_2);
         property.set(VALUE_1);
@@ -235,15 +235,15 @@ public class ReadOnlyDoubleWrapperTest {
     @Test
     public void testLazySetValue() {
         attachInvalidationListeners();
-        
+
         // set value once
         property.setValue(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
-        
+
         // set same value again
         property.setValue(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
@@ -251,62 +251,62 @@ public class ReadOnlyDoubleWrapperTest {
         internalInvalidationListener.check(null, 0);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(null, 0);
-        
+
         // set value twice without reading
         property.setValue(VALUE_2);
         property.setValue(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
     }
-    
+
     @Test
     public void testInternalEagerSetValue() {
         attachInternalChangeListener();
-        
+
         // set value once
         property.setValue(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(1);
-        internalChangeListener.check(readOnlyProperty, DEFAULT, VALUE_1, 1);
+        internalChangeListener.check(property, DEFAULT, VALUE_1, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
-        
+
         // set same value again
         property.setValue(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(0);
         internalChangeListener.check(null, UNDEFINED, UNDEFINED, 0);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
-        
+
         // set value twice without reading
         property.setValue(VALUE_2);
         property.setValue(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(2);
-        internalChangeListener.check(readOnlyProperty, VALUE_2, VALUE_1, 2);
+        internalChangeListener.check(property, VALUE_2, VALUE_1, 2);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
     }
-    
+
     @Test
     public void testPublicEagerSetValue() {
         attachPublicChangeListener();
-        
+
         // set value once
         property.setValue(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicChangeListener.check(readOnlyProperty, DEFAULT, VALUE_1, 1);
-        
+
         // set same value again
         property.setValue(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(0);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicChangeListener.check(null, UNDEFINED, UNDEFINED, 0);
-        
+
         // set value twice without reading
         property.setValue(VALUE_2);
         property.setValue(VALUE_1);
@@ -315,7 +315,7 @@ public class ReadOnlyDoubleWrapperTest {
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicChangeListener.check(readOnlyProperty, VALUE_2, VALUE_1, 2);
     }
-    
+
     @Test(expected=RuntimeException.class)
     public void testSetBoundValue() {
         final DoubleProperty v = new SimpleDoubleProperty(VALUE_1);
@@ -332,7 +332,7 @@ public class ReadOnlyDoubleWrapperTest {
         assertEquals(VALUE_1, property.get(), EPSILON);
         assertTrue(property.isBound());
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
 
@@ -340,7 +340,7 @@ public class ReadOnlyDoubleWrapperTest {
         v.set(VALUE_2);
         assertEquals(VALUE_2, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_2, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
 
@@ -349,7 +349,7 @@ public class ReadOnlyDoubleWrapperTest {
         v.set(VALUE_2);
         assertEquals(VALUE_2, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_2, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
 
@@ -358,7 +358,7 @@ public class ReadOnlyDoubleWrapperTest {
         v.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
     }
@@ -372,14 +372,14 @@ public class ReadOnlyDoubleWrapperTest {
         assertEquals(VALUE_1, property.get(), EPSILON);
         assertTrue(property.isBound());
         property.check(1);
-        internalChangeListener.check(readOnlyProperty, DEFAULT, VALUE_1, 1);
+        internalChangeListener.check(property, DEFAULT, VALUE_1, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
 
         // change binding once
         v.set(VALUE_2);
         assertEquals(VALUE_2, property.get(), EPSILON);
         property.check(1);
-        internalChangeListener.check(readOnlyProperty, VALUE_1, VALUE_2, 1);
+        internalChangeListener.check(property, VALUE_1, VALUE_2, 1);
         assertEquals(VALUE_2, readOnlyProperty.get(), EPSILON);
 
         // change binding twice without reading
@@ -387,7 +387,7 @@ public class ReadOnlyDoubleWrapperTest {
         v.set(VALUE_2);
         assertEquals(VALUE_2, property.get(), EPSILON);
         property.check(2);
-        internalChangeListener.check(readOnlyProperty, VALUE_1, VALUE_2, 2);
+        internalChangeListener.check(property, VALUE_1, VALUE_2, 2);
         assertEquals(VALUE_2, readOnlyProperty.get(), EPSILON);
 
         // change binding twice to same value
@@ -395,10 +395,10 @@ public class ReadOnlyDoubleWrapperTest {
         v.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(2);
-        internalChangeListener.check(readOnlyProperty, VALUE_2, VALUE_1, 1);
+        internalChangeListener.check(property, VALUE_2, VALUE_1, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
     }
-    
+
     @Test
     public void testPublicEagerBind_primitive() {
         attachPublicChangeListener();
@@ -434,7 +434,7 @@ public class ReadOnlyDoubleWrapperTest {
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicChangeListener.check(readOnlyProperty, VALUE_2, VALUE_1, 1);
     }
-    
+
     @Test
     public void testLazyBind_generic() {
         attachInvalidationListeners();
@@ -444,7 +444,7 @@ public class ReadOnlyDoubleWrapperTest {
         assertEquals(VALUE_1, property.get(), EPSILON);
         assertTrue(property.isBound());
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
 
@@ -452,7 +452,7 @@ public class ReadOnlyDoubleWrapperTest {
         v.set(VALUE_2);
         assertEquals(VALUE_2, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_2, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
 
@@ -461,7 +461,7 @@ public class ReadOnlyDoubleWrapperTest {
         v.set(VALUE_2);
         assertEquals(VALUE_2, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_2, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
 
@@ -470,7 +470,7 @@ public class ReadOnlyDoubleWrapperTest {
         v.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
     }
@@ -484,14 +484,14 @@ public class ReadOnlyDoubleWrapperTest {
         assertEquals(VALUE_1, property.get(), EPSILON);
         assertTrue(property.isBound());
         property.check(1);
-        internalChangeListener.check(readOnlyProperty, DEFAULT, VALUE_1, 1);
+        internalChangeListener.check(property, DEFAULT, VALUE_1, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
 
         // change binding once
         v.set(VALUE_2);
         assertEquals(VALUE_2, property.get(), EPSILON);
         property.check(1);
-        internalChangeListener.check(readOnlyProperty, VALUE_1, VALUE_2, 1);
+        internalChangeListener.check(property, VALUE_1, VALUE_2, 1);
         assertEquals(VALUE_2, readOnlyProperty.get(), EPSILON);
 
         // change binding twice without reading
@@ -499,7 +499,7 @@ public class ReadOnlyDoubleWrapperTest {
         v.set(VALUE_2);
         assertEquals(VALUE_2, property.get(), EPSILON);
         property.check(2);
-        internalChangeListener.check(readOnlyProperty, VALUE_1, VALUE_2, 2);
+        internalChangeListener.check(property, VALUE_1, VALUE_2, 2);
         assertEquals(VALUE_2, readOnlyProperty.get(), EPSILON);
 
         // change binding twice to same value
@@ -507,7 +507,7 @@ public class ReadOnlyDoubleWrapperTest {
         v.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(2);
-        internalChangeListener.check(readOnlyProperty, VALUE_2, VALUE_1, 1);
+        internalChangeListener.check(property, VALUE_2, VALUE_1, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
     }
 
@@ -546,7 +546,7 @@ public class ReadOnlyDoubleWrapperTest {
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicChangeListener.check(readOnlyProperty, VALUE_2, VALUE_1, 1);
     }
-    
+
     @Test(expected=NullPointerException.class)
     public void testBindToNull() {
         property.bind(null);
@@ -563,24 +563,24 @@ public class ReadOnlyDoubleWrapperTest {
         property.reset();
         internalInvalidationListener.reset();
         publicInvalidationListener.reset();
-        
+
         // rebind causes invalidation event
         property.bind(v2);
         assertEquals(VALUE_2, property.get(), EPSILON);
         assertTrue(property.isBound());
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_2, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
-        
+
         // change new binding
         v2.set(VALUE_1);
         assertEquals(VALUE_1, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
-        
+
         // change old binding
         v1.set(VALUE_2);
         assertEquals(VALUE_1, property.get(), EPSILON);
@@ -588,7 +588,7 @@ public class ReadOnlyDoubleWrapperTest {
         internalInvalidationListener.check(null, 0);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(null, 0);
-        
+
         // rebind to same observable should have no effect
         property.bind(v2);
         assertEquals(VALUE_1, property.get(), EPSILON);
@@ -611,7 +611,7 @@ public class ReadOnlyDoubleWrapperTest {
         property.reset();
         internalInvalidationListener.reset();
         publicInvalidationListener.reset();
-        
+
         // change binding
         v.set(VALUE_2);
         assertEquals(VALUE_1, property.get(), EPSILON);
@@ -619,16 +619,16 @@ public class ReadOnlyDoubleWrapperTest {
         internalInvalidationListener.check(null, 0);
         assertEquals(VALUE_1, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(null, 0);
-        
+
         // set value
         property.set(VALUE_2);
         assertEquals(VALUE_2, property.get(), EPSILON);
         property.check(1);
-        internalInvalidationListener.check(readOnlyProperty, 1);
+        internalInvalidationListener.check(property, 1);
         assertEquals(VALUE_2, readOnlyProperty.get(), EPSILON);
         publicInvalidationListener.check(readOnlyProperty, 1);
     }
-    
+
     @Test
     public void testAddingListenerWillAlwaysReceiveInvalidationEvent() {
         final DoubleProperty v = new SimpleDoubleProperty(VALUE_1);
@@ -642,15 +642,15 @@ public class ReadOnlyDoubleWrapperTest {
         property.addListener(internalListener2);
         internalListener2.reset();
         property.set(VALUE_2);
-        internalListener2.check(readOnlyProperty, 1);
-        
+        internalListener2.check(property, 1);
+
         // setting the property, checking public
         property.set(VALUE_1);
         readOnlyProperty.addListener(publicListener2);
         publicListener2.reset();
         property.set(VALUE_2);
         publicListener2.check(readOnlyProperty, 1);
-        
+
         // binding the property, checking internal
         property.bind(v);
         v.set(VALUE_2);
@@ -658,8 +658,8 @@ public class ReadOnlyDoubleWrapperTest {
         v.get();
         internalListener3.reset();
         v.set(VALUE_1);
-        internalListener3.check(readOnlyProperty, 1);
-        
+        internalListener3.check(property, 1);
+
         // binding the property, checking public
         property.bind(v);
         v.set(VALUE_2);
@@ -669,7 +669,7 @@ public class ReadOnlyDoubleWrapperTest {
         v.set(VALUE_1);
         publicListener3.check(readOnlyProperty, 1);
     }
-    
+
     @Test
     public void testRemoveListeners() {
         attachInvalidationListeners();
@@ -679,37 +679,37 @@ public class ReadOnlyDoubleWrapperTest {
         property.get();
         internalInvalidationListener.reset();
         internalChangeListener.reset();
-        
+
         property.set(VALUE_1);
         internalInvalidationListener.check(null, 0);
         internalChangeListener.check(null, UNDEFINED, UNDEFINED, 0);
-        
+
         // no read only property created => no-op
         final ReadOnlyDoubleWrapper v1 = new ReadOnlyDoubleWrapper();
         v1.removeListener(internalInvalidationListener);
         v1.removeListener(internalChangeListener);
     }
-    
+
     @Test
     public void testNoReadOnlyPropertyCreated() {
         final DoubleProperty v1 = new SimpleDoubleProperty(VALUE_1);
         final ReadOnlyDoubleWrapper p1 = new ReadOnlyDoubleWrapper();
-        
+
         p1.set(VALUE_1);
         p1.bind(v1);
         assertEquals(VALUE_1, p1.get(), EPSILON);
         v1.set(VALUE_2);
         assertEquals(VALUE_2, p1.get(), EPSILON);
     }
-    
+
     @Test
     public void testToString() {
         final DoubleProperty v1 = new SimpleDoubleProperty(VALUE_1);
-        
+
         property.set(VALUE_1);
         assertEquals("DoubleProperty [value: " + VALUE_1 + "]", property.toString());
         assertEquals("ReadOnlyDoubleProperty [value: " + VALUE_1 + "]", readOnlyProperty.toString());
-        
+
         property.bind(v1);
         assertEquals("DoubleProperty [bound, invalid]", property.toString());
         assertEquals("ReadOnlyDoubleProperty [value: " + VALUE_1 + "]", readOnlyProperty.toString());
@@ -722,13 +722,13 @@ public class ReadOnlyDoubleWrapperTest {
         property.get();
         assertEquals("DoubleProperty [bound, value: " + VALUE_2 + "]", property.toString());
         assertEquals("ReadOnlyDoubleProperty [value: " + VALUE_2 + "]", readOnlyProperty.toString());
-        
+
         final Object bean = new Object();
         final String name = "My name";
         final ReadOnlyDoubleWrapper v2 = new ReadOnlyDoubleWrapper(bean, name);
         assertEquals("DoubleProperty [bean: " + bean.toString() + ", name: My name, value: " + DEFAULT + "]", v2.toString());
         assertEquals("ReadOnlyDoubleProperty [bean: " + bean.toString() + ", name: My name, value: " + DEFAULT + "]", v2.getReadOnlyProperty().toString());
-        
+
         final ReadOnlyDoubleWrapper v3 = new ReadOnlyDoubleWrapper(bean, "");
         assertEquals("DoubleProperty [bean: " + bean.toString() + ", value: " + DEFAULT + "]", v3.toString());
         assertEquals("ReadOnlyDoubleProperty [bean: " + bean.toString() + ", value: " + DEFAULT + "]", v3.getReadOnlyProperty().toString());
@@ -737,21 +737,21 @@ public class ReadOnlyDoubleWrapperTest {
         assertEquals("DoubleProperty [name: My name, value: " + DEFAULT + "]", v4.toString());
         assertEquals("ReadOnlyDoubleProperty [name: My name, value: " + DEFAULT + "]", v4.getReadOnlyProperty().toString());
     }
-    
+
     private static class ReadOnlyDoubleWrapperMock extends ReadOnlyDoubleWrapper {
-        
+
         private int counter;
-        
+
         @Override
         protected void invalidated() {
             counter++;
         }
-        
+
         private void check(int expected) {
             assertEquals(expected, counter);
             reset();
         }
-        
+
         private void reset() {
             counter = 0;
         }

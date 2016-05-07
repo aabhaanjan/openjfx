@@ -25,7 +25,6 @@
 
 namespace WebCore {
 
-static const float kPathSegmentLengthTolerance = 0.00001f;
 
 static inline FloatPoint midPoint(const FloatPoint& first, const FloatPoint& second)
 {
@@ -43,30 +42,39 @@ struct QuadraticBezier {
         : start(s)
         , control(c)
         , end(e)
+        , splitDepth(0)
     {
     }
-    
+
+    double magnitudeSquared() const
+    {
+        return ((double)(start.dot(start)) + (double)(control.dot(control)) + (double)(end.dot(end))) / 9.0;
+    }
+
     float approximateDistance() const
     {
         return distanceLine(start, control) + distanceLine(control, end);
     }
-    
+
     void split(QuadraticBezier& left, QuadraticBezier& right) const
     {
         left.control = midPoint(start, control);
         right.control = midPoint(control, end);
-        
+
         FloatPoint leftControlToRightControl = midPoint(left.control, right.control);
         left.end = leftControlToRightControl;
         right.start = leftControlToRightControl;
 
         left.start = start;
         right.end = end;
+
+        left.splitDepth = right.splitDepth = splitDepth + 1;
     }
-    
+
     FloatPoint start;
     FloatPoint control;
     FloatPoint end;
+    unsigned short splitDepth;
 };
 
 struct CubicBezier {
@@ -76,47 +84,55 @@ struct CubicBezier {
         , control1(c1)
         , control2(c2)
         , end(e)
+        , splitDepth(0)
     {
     }
-    
+
+    double magnitudeSquared() const
+    {
+        return ((double)(start.dot(start)) + (double)(control1.dot(control1)) + (double)(control2.dot(control2)) + (double)(end.dot(end))) / 16.0;
+    }
+
     float approximateDistance() const
     {
         return distanceLine(start, control1) + distanceLine(control1, control2) + distanceLine(control2, end);
     }
-        
+
     void split(CubicBezier& left, CubicBezier& right) const
-    {    
+    {
         FloatPoint startToControl1 = midPoint(control1, control2);
-        
+
         left.start = start;
         left.control1 = midPoint(start, control1);
         left.control2 = midPoint(left.control1, startToControl1);
-        
+
         right.control2 = midPoint(control2, end);
         right.control1 = midPoint(right.control2, startToControl1);
         right.end = end;
-        
+
         FloatPoint leftControl2ToRightControl1 = midPoint(left.control2, right.control1);
         left.end = leftControl2ToRightControl1;
         right.start = leftControl2ToRightControl1;
+
+        left.splitDepth = right.splitDepth = splitDepth + 1;
     }
-    
+
     FloatPoint start;
     FloatPoint control1;
     FloatPoint control2;
     FloatPoint end;
+    unsigned short splitDepth;
 };
 
-// FIXME: This function is possibly very slow due to the ifs required for proper path measuring
-// A simple speed-up would be to use an additional boolean template parameter to control whether
-// to use the "fast" version of this function with no PathTraversalState updating, vs. the slow
-// version which does update the PathTraversalState.  We'll have to shark it to see if that's necessary.
-// Another check which is possible up-front (to send us down the fast path) would be to check if
-// approximateDistance() + current total distance > desired distance
 template<class CurveType>
 static float curveLength(PathTraversalState& traversalState, CurveType curve)
 {
-    static const unsigned curveStackDepthLimit = 20;
+    static const unsigned short curveSplitDepthLimit = 20;
+    static const double pathSegmentLengthToleranceSquared = 1.e-16;
+
+    double curveScaleForToleranceSquared = curve.magnitudeSquared();
+    if (curveScaleForToleranceSquared < pathSegmentLengthToleranceSquared)
+        return 0;
 
     Vector<CurveType> curveStack;
     curveStack.append(curve);
@@ -124,7 +140,8 @@ static float curveLength(PathTraversalState& traversalState, CurveType curve)
     float totalLength = 0;
     do {
         float length = curve.approximateDistance();
-        if ((length - distanceLine(curve.start, curve.end)) > kPathSegmentLengthTolerance && curveStack.size() <= curveStackDepthLimit) {
+        double lengthDiscrepancy = length - distanceLine(curve.start, curve.end);
+        if ((lengthDiscrepancy * lengthDiscrepancy) / curveScaleForToleranceSquared > pathSegmentLengthToleranceSquared && curve.splitDepth < curveSplitDepthLimit) {
             CurveType leftCurve;
             CurveType rightCurve;
             curve.split(leftCurve, rightCurve);
@@ -143,7 +160,7 @@ static float curveLength(PathTraversalState& traversalState, CurveType curve)
             curveStack.removeLast();
         }
     } while (!curveStack.isEmpty());
-    
+
     return totalLength;
 }
 
@@ -160,20 +177,20 @@ PathTraversalState::PathTraversalState(PathTraversalAction action)
 float PathTraversalState::closeSubpath()
 {
     float distance = distanceLine(m_current, m_start);
-    m_current = m_control1 = m_control2 = m_start;
+    m_current = m_start;
     return distance;
 }
 
 float PathTraversalState::moveTo(const FloatPoint& point)
 {
-    m_current = m_start = m_control1 = m_control2 = point;
+    m_current = m_start = point;
     return 0;
 }
 
 float PathTraversalState::lineTo(const FloatPoint& point)
 {
     float distance = distanceLine(m_current, point);
-    m_current = m_control1 = m_control2 = point;
+    m_current = point;
     return distance;
 }
 
@@ -181,10 +198,7 @@ float PathTraversalState::quadraticBezierTo(const FloatPoint& newControl, const 
 {
     float distance = curveLength<QuadraticBezier>(*this, QuadraticBezier(m_current, newControl, newEnd));
 
-    m_control1 = newControl;
-    m_control2 = newEnd;
-
-    if (m_action != TraversalPointAtLength && m_action != TraversalNormalAngleAtLength) 
+    if (m_action != TraversalPointAtLength && m_action != TraversalNormalAngleAtLength)
         m_current = newEnd;
 
     return distance;
@@ -194,10 +208,7 @@ float PathTraversalState::cubicBezierTo(const FloatPoint& newControl1, const Flo
 {
     float distance = curveLength<CubicBezier>(*this, CubicBezier(m_current, newControl1, newControl2, newEnd));
 
-    m_control1 = newEnd;
-    m_control2 = newControl2;
- 
-    if (m_action != TraversalPointAtLength && m_action != TraversalNormalAngleAtLength) 
+    if (m_action != TraversalPointAtLength && m_action != TraversalNormalAngleAtLength)
         m_current = newEnd;
 
     return distance;
@@ -207,7 +218,7 @@ void PathTraversalState::processSegment()
 {
     if (m_action == TraversalSegmentAtLength && m_totalLength >= m_desiredLength)
         m_success = true;
-        
+
     if ((m_action == TraversalPointAtLength || m_action == TraversalNormalAngleAtLength) && m_totalLength >= m_desiredLength) {
         float slope = FloatPoint(m_current - m_previous).slopeAngleRadians();
         if (m_action == TraversalPointAtLength) {

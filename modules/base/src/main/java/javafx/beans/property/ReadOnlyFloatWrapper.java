@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,17 +25,12 @@
 
 package javafx.beans.property;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
-
-import com.sun.javafx.binding.ExpressionHelper;
-
 /**
  * This class provides a convenient class to define read-only properties. It
  * creates two properties that are synchronized. One property is read-only
  * and can be passed to external users. The other property is read- and
  * writable and should be used internally only.
- * 
+ *
  * @since JavaFX 2.0
  */
 public class ReadOnlyFloatWrapper extends SimpleFloatProperty {
@@ -50,7 +45,7 @@ public class ReadOnlyFloatWrapper extends SimpleFloatProperty {
 
     /**
      * The constructor of {@code ReadOnlyFloatWrapper}
-     * 
+     *
      * @param initialValue
      *            the initial value of the wrapped value
      */
@@ -60,7 +55,7 @@ public class ReadOnlyFloatWrapper extends SimpleFloatProperty {
 
     /**
      * The constructor of {@code ReadOnlyFloatWrapper}
-     * 
+     *
      * @param bean
      *            the bean of this {@code ReadOnlyFloatProperty}
      * @param name
@@ -72,7 +67,7 @@ public class ReadOnlyFloatWrapper extends SimpleFloatProperty {
 
     /**
      * The constructor of {@code ReadOnlyFloatWrapper}
-     * 
+     *
      * @param bean
      *            the bean of this {@code ReadOnlyFloatProperty}
      * @param name
@@ -87,7 +82,7 @@ public class ReadOnlyFloatWrapper extends SimpleFloatProperty {
     /**
      * Returns the readonly property, that is synchronized with this
      * {@code ReadOnlyFloatWrapper}.
-     * 
+     *
      * @return the readonly property
      */
     public ReadOnlyFloatProperty getReadOnlyProperty() {
@@ -101,81 +96,20 @@ public class ReadOnlyFloatWrapper extends SimpleFloatProperty {
      * {@inheritDoc}
      */
     @Override
-    public void addListener(InvalidationListener listener) {
-        getReadOnlyProperty().addListener(listener);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void removeListener(InvalidationListener listener) {
-        if (readOnlyProperty != null) {
-            readOnlyProperty.removeListener(listener);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addListener(ChangeListener<? super Number> listener) {
-        getReadOnlyProperty().addListener(listener);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void removeListener(ChangeListener<? super Number> listener) {
-        if (readOnlyProperty != null) {
-            readOnlyProperty.removeListener(listener);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected void fireValueChangedEvent() {
+        super.fireValueChangedEvent();
         if (readOnlyProperty != null) {
             readOnlyProperty.fireValueChangedEvent();
         }
     }
 
-    private class ReadOnlyPropertyImpl extends ReadOnlyFloatProperty {
-        
-        private ExpressionHelper<Number> helper = null;
-        
+    private class ReadOnlyPropertyImpl extends ReadOnlyFloatPropertyBase {
+
         @Override
         public float get() {
             return ReadOnlyFloatWrapper.this.get();
         }
 
-        @Override 
-        public void addListener(InvalidationListener listener) {
-            helper = ExpressionHelper.addListener(helper, this, listener);
-        }
-
-        @Override 
-        public void removeListener(InvalidationListener listener) {
-            helper = ExpressionHelper.removeListener(helper, listener);
-        }
-        
-        @Override
-        public void addListener(ChangeListener<? super Number> listener) {
-            helper = ExpressionHelper.addListener(helper, this, listener);
-        }
-
-        @Override 
-        public void removeListener(ChangeListener<? super Number> listener) {
-            helper = ExpressionHelper.removeListener(helper, listener);
-        }
-        
-        protected void fireValueChangedEvent() {
-            ExpressionHelper.fireValueChangedEvent(helper);
-        }
-        
         @Override
         public Object getBean() {
             return ReadOnlyFloatWrapper.this.getBean();
