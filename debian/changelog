@@ -1,8 +1,10 @@
-openjfx (8u91-b14-1) UNRELEASED; urgency=medium
+openjfx (8u91-b14-1) unstable; urgency=medium
 
   * Team upload.
   * New upstream release
     - Refreshed the patches
+    - Fixes the security vulnerabilities CVE-2015-4916, CVE-2015-4908,
+      CVE-2015-4906 and CVE-2015-4901 (Closes: #823622)
   * Build with gradle-debian-helper
   * Use override_dh_*-{arch,indep} to split the arch all/any operations
   * Simplified the clean target
@@ -10,7 +12,7 @@ openjfx (8u91-b14-1) UNRELEASED; urgency=medium
   * Standards-Version updated to 3.9.8 (no changes)
   * Use secure Vcs-* URLs
 
- -- Emmanuel Bourg <ebourg@apache.org>  Thu, 15 Oct 2015 21:56:59 +0200
+ -- Emmanuel Bourg <ebourg@apache.org>  Sat, 07 May 2016 22:32:15 +0200
 
 openjfx (8u60-b27-4) unstable; urgency=medium
 

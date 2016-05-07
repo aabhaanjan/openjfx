@@ -3,7 +3,7 @@ Upstream-Name: OpenJFX
 Source: http://hg.openjdk.java.net/openjfx/8u-dev/rt/
 
 Files: *
-Copyright: 2014-2015, Oracle Inc.
+Copyright: 2014-2016, Oracle Inc.
 License: GPL-2 with Classpath exception
 
 Files: apps/experiments/ConferenceScheduleApp/*
@@ -105,7 +105,7 @@ License: custom-licence
  list of the copyright holders and the applicable licenses.
 
 Files: debian/*
-Copyright: 2014 Emmanuel Bourg <ebourg@apache.org>
+Copyright: 2014-2016, Emmanuel Bourg <ebourg@apache.org>
 License: Apache-2.0
  On Debian systems, the full text of the Apache-2.0 license
  can be found in the file '/usr/share/common-licenses/Apache-2.0'
