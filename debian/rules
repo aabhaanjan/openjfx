@@ -24,9 +24,10 @@ jvm_arch   := $(strip $(patsubst $(DEB_HOST_ARCH_CPU)=%, %, $(filter $(DEB_HOST_
 %:
 	dh $@ --buildsystem=gradle
 
-override_dh_auto_build-arch:
+override_dh_auto_configure-arch:
 	cp debian/gradle.properties .
 
+override_dh_auto_build-arch:
 	# replace the non-free JavaScript minifier with a noop equivalent
 	cp debian/jsmin-noop.py modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/jsmin.py
 
@@ -40,8 +41,8 @@ override_dh_auto_build-arch:
 
 	$(SET_JAVA_OPTS) dh_auto_build -- sdk -x javadoc -x src
 
-override_dh_auto_build-indep:
-	$(SET_JAVA_OPTS) dh_auto_build -- javadoc src
+override_dh_auto_build-indep: override_dh_auto_build-arch
+	$(SET_JAVA_OPTS) dh_auto_build -- javadoc src -PBUILD_JAVADOC=true -PBUILD_SRC_ZIP=true
 
 override_dh_install-arch:
 	dh_install -a
