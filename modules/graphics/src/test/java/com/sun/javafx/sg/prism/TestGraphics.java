@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -51,7 +51,6 @@ import com.sun.prism.Texture.WrapMode;
 import com.sun.prism.impl.BaseContext;
 import com.sun.prism.impl.BaseGraphics;
 import com.sun.prism.impl.TextureResourcePool;
-import com.sun.prism.impl.VertexBuffer;
 import com.sun.prism.paint.Color;
 import com.sun.prism.shape.ShapeRep;
 
@@ -147,7 +146,11 @@ public class TestGraphics extends BaseGraphics {
     private static class TestContext extends BaseContext {
 
         public TestContext() {
-            super(null, new TestResourceFactory(), null);
+            super(null, new TestResourceFactory(), 32);
+        }
+
+        @Override
+        protected void renderQuads(float[] coordArray, byte[] colorArray, int numVertices) {
         }
 
         @Override
@@ -245,7 +248,6 @@ public class TestGraphics extends BaseGraphics {
             };
         }
         @Override public Presentable createPresentable(PresentableState pstate) { return null; }
-        @Override public VertexBuffer createVertexBuffer(int maxQuads) { return null; }
         @Override public ShapeRep createPathRep() { return null; }
         @Override public ShapeRep createRoundRectRep() { return null; }
         @Override public ShapeRep createEllipseRep() { return null; }

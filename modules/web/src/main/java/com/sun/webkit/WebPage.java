@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -142,6 +142,17 @@ public final class WebPage {
         });
     }
 
+    private static boolean firstWebPageCreated = false;
+
+    private static void collectJSCGarbages() {
+        Invoker.getInvoker().checkEventThread();
+        // Add dummy object to get notification as soon as it is collected
+        // by the JVM GC.
+        Disposer.addRecord(new Object(), WebPage::collectJSCGarbages);
+        // Invoke JavaScriptCore GC.
+        twkDoJSCGarbageCollection();
+    }
+
     public WebPage(WebPageClient pageClient,
                    UIClient uiClient,
                    PolicyClient policyClient,
@@ -173,6 +184,13 @@ public final class WebPage {
         if (pageClient != null && pageClient.isBackBufferSupported()) {
             backbuffer = pageClient.createBackBuffer();
             backbuffer.ref();
+        }
+
+        if (!firstWebPageCreated) {
+            // Add dummy object to get notification as soon as it is collected
+            // by the JVM GC.
+            Disposer.addRecord(new Object(), WebPage::collectJSCGarbages);
+            firstWebPageCreated = true;
         }
     }
 
@@ -1184,8 +1202,16 @@ public final class WebPage {
             if (!frames.contains(frameID)) {
                 return;
             }
-            twkOpen(frameID, url);
-
+            if (twkIsLoading(frameID)) {
+                Invoker.getInvoker().postOnEventThread(() -> {
+                    // Postpone new load request while webkit is
+                    // about to commit the DocumentLoader from
+                    // provisional state to committed state
+                    twkOpen(frameID, url);
+                });
+            } else {
+                twkOpen(frameID, url);
+            }
         } finally {
             unlockPage();
         }
@@ -1206,8 +1232,16 @@ public final class WebPage {
                 return;
             }
             // TODO: handle contentType
-            twkLoad(frameID, text, contentType);
-
+            if (twkIsLoading(frameID)) {
+                // Postpone loading new content while webkit is
+                // about to commit the DocumentLoader from
+                // provisional state to committed state
+                Invoker.getInvoker().postOnEventThread(() -> {
+                    twkLoad(frameID, text, contentType);
+                });
+            } else {
+                twkLoad(frameID, text, contentType);
+            }
         } finally {
             unlockPage();
         }
@@ -2438,6 +2472,7 @@ public final class WebPage {
 
     private native void twkOpen(long pFrame, String url);
     private native void twkLoad(long pFrame, String text, String contentType);
+    private native boolean twkIsLoading(long pFrame);
     private native void twkStop(long pFrame);
     private native void twkStopAll(long pPage); // sync
     private native void twkRefresh(long pFrame);
@@ -2542,4 +2577,5 @@ public final class WebPage {
     private native void twkDisconnectInspectorFrontend(long pPage);
     private native void twkDispatchInspectorMessageFromFrontend(long pPage,
                                                                 String message);
+    private static native void twkDoJSCGarbageCollection();
 }

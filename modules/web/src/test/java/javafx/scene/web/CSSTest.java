@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,6 +25,10 @@
 
 package javafx.scene.web;
 
+import static javafx.concurrent.Worker.State.FAILED;
+import static javafx.concurrent.Worker.State.SUCCEEDED;
+import java.io.File;
+import javafx.concurrent.Worker.State;
 import javafx.scene.Scene;
 import javafx.scene.text.FontSmoothingType;
 
@@ -33,6 +37,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class CSSTest extends TestBase {
+
+    private State getLoadState() {
+        return submit(() -> getEngine().getLoadWorker().getState());
+    }
 
     private void setStyle(final String style) {
         submit(() -> {
@@ -269,5 +277,11 @@ public class CSSTest extends TestBase {
         submit(() -> {
             testMaxHeight(3);
         });
+    }
+
+    @Test public void testLongSelectorList() {
+        final String FILE = "src/test/resources/test/html/longselectorlist.html";
+        load(new File(FILE));
+        assertEquals("Loading Long SelectorList completed successfully", SUCCEEDED, getLoadState());
     }
 }

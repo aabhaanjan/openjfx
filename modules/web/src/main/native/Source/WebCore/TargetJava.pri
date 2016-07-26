@@ -224,14 +224,14 @@ linux-*|solaris-* {
     }
 
     linux-*|solaris-g++* {
-        QMAKE_LFLAGS += -Xlinker -version-script=$$PWD/mapfile-vers
+        QMAKE_LFLAGS += -Xlinker -version-script=$$PWD/mapfile-vers -Xlinker --no-undefined
 
-        # just for build debug: force verboce output from linker 
+        # just for build debug: force verboce output from linker
         QMAKE_LFLAGS +=  -Wl,--verbose
 
         # statically link with icu libraries in order to avoid version conflict
         QMAKE_LFLAGS += `pkg-config --libs-only-L icu-uc`
-        LIBS += -Wl,-Bstatic -licui18n -licuuc -licudata -Wl,-Bdynamic
+        LIBS += -Wl,-Bstatic -licui18n -licuuc -licudata -Wl,-Bdynamic -ldl
     }
     solaris-cc {
         QMAKE_LFLAGS += -M$$PWD/mapfile-vers
@@ -474,7 +474,7 @@ SOURCES += \
     bridge/runtime_method.cpp \
     bridge/runtime_object.cpp \
     bridge/runtime_root.cpp \
-#    testing/js/WebCoreTestSupport.cpp \
+    testing/js/WebCoreTestSupport.cpp \
     Modules/navigatorcontentutils/NavigatorContentUtils.cpp \
     Modules/proximity/DeviceProximityController.cpp \
     Modules/proximity/DeviceProximityEvent.cpp \

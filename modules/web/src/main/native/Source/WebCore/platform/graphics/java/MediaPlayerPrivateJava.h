@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #ifndef MediaPlayerPrivateJava_h
 #define MediaPlayerPrivateJava_h
@@ -110,7 +110,7 @@ namespace WebCore {
         //virtual void acceleratedRenderingStateChanged() { }
 #endif
 
-        //virtual bool hasSingleSecurityOrigin() const { return false; }
+        virtual bool hasSingleSecurityOrigin() const { return true; }
 
         //virtual MediaPlayer::MovieLoadType movieLoadType() const { return MediaPlayer::Unknown; }
 
