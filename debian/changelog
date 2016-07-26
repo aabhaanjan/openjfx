@@ -3,6 +3,7 @@ openjfx (8u102-b14-1) UNRELEASED; urgency=medium
   * Team upload.
   * New upstream release
     - Refreshed the patches
+    - New build dependency on python
   * Fixed the build failure when building only the arch indep packages
     (Closes: #825276)
   * Improved the reproducibility:
