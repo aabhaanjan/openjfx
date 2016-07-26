@@ -1,7 +1,8 @@
-openjfx (8u102-b14-1) UNRELEASED; urgency=medium
+openjfx (8u102-b14-1) unstable; urgency=medium
 
   * Team upload.
   * New upstream release
+    - Fixes CVE-2016-3498 (Closes: #832419)
     - Refreshed the patches
     - New build dependency on python
   * Fixed the build failure when building only the arch indep packages
@@ -9,7 +10,7 @@ openjfx (8u102-b14-1) UNRELEASED; urgency=medium
   * Improved the reproducibility:
     - Use SOURCE_DATE_EPOCH for the BUILD_TIMESTAMP
 
- -- Emmanuel Bourg <ebourg@apache.org>  Wed, 25 May 2016 22:50:36 +0200
+ -- Emmanuel Bourg <ebourg@apache.org>  Tue, 26 Jul 2016 11:17:10 +0200
 
 openjfx (8u91-b14-1) unstable; urgency=medium
 
