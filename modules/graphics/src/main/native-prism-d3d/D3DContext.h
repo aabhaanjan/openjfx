@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -90,9 +90,6 @@ public:
                                 int srcX0, int srcY0, int srcX1, int srcY1,
                                 IDirect3DSurface9* pDstSurface,
                                 int dstX0, int dstY0, int dstX1, int dstY1);
-
-    HRESULT drawTriangleList(struct PrismSourceVertex const *pSrcFloats, BYTE const *pSrcColors, int numTriangles);
-
 
     /**
      * Releases the old device (if there was one) and all associated

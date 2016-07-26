@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -771,7 +771,6 @@ JNIEXPORT void JNICALL Java_com_sun_webkit_graphics_WCMediaPlayer_notifySeeking
     (JNIEnv *env, jobject jThis, jlong ptr, jboolean seeking, jint readyState)
 {
     MediaPlayerPrivate* player = MediaPlayerPrivate::getPlayer(ptr);
-    player->notifyReadyStateChanged(readyState);
     player->notifySeeking(jbool_to_bool(seeking));
 }
 

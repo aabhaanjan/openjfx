@@ -315,6 +315,110 @@ public class JavaScriptBridgeTest extends TestBase {
         });
     }
 
+    // JDK-8141386
+    public static class WrapperObjects {
+        public Number n0; // using setter
+        public Number n1; // direct access
+        public Double d0; // using setter
+        public Double d1; // direct access
+        public Integer i0; // using setter
+        public Integer i1; // direct access
+        public Boolean b0; // using setter
+        public Boolean b1; // direct access
+        public Character c0; // using setter
+        public Character c1; // direct access
+
+        public void setNumberVal(Number n) {
+            n0 = n;
+        }
+
+        public void setDoubleVal(Double d) {
+            d0 = d;
+        }
+
+        public void setIntegerVal(Integer i) {
+            i0 = i;
+        }
+
+        public void setBooleanVal(Boolean b) {
+            b0 = b;
+        }
+
+        public void setCharacterVal(Character c) {
+            c0 = c;
+        }
+    }
+
+    public @Test void testMethodCallWithWrapperObjects() {
+        final WebEngine web = getEngine();
+
+        submit(() -> {
+            WrapperObjects obj = new WrapperObjects();
+            bind("obj", obj);
+            // Test java.lang.Number
+            web.executeScript("obj.setNumberVal(1.23)");
+            assertEquals(1.23, obj.n0.doubleValue(), 0.1);
+            web.executeScript("obj.n1 = 1.23");
+            assertEquals(1.23, obj.n1.doubleValue(), 0.1);
+            // Test java.lang.Double
+            web.executeScript("obj.setDoubleVal(1.23)");
+            assertEquals(1.23, obj.d0, 0.1);
+            web.executeScript("obj.d1 = 1.23");
+            assertEquals(1.23, obj.d1, 0.1);
+            // Test java.lang.Integer
+            web.executeScript("obj.setIntegerVal(123)");
+            assertEquals(123, obj.i0.intValue());
+            web.executeScript("obj.i1 = 123");
+            assertEquals(123, obj.i1.intValue());
+            // Test java.lang.Boolean
+            web.executeScript("obj.setBooleanVal(true)");
+            assertEquals(true, obj.b0.booleanValue());
+            web.executeScript("obj.setBooleanVal(false)");
+            assertEquals(false, obj.b0.booleanValue());
+            web.executeScript("obj.b1 = true");
+            assertEquals(true, obj.b1.booleanValue());
+            web.executeScript("obj.b1 = false");
+            assertEquals(false, obj.b1.booleanValue());
+            // Test java.lang.Character
+            web.executeScript("obj.setCharacterVal('o')");
+            assertEquals('o', obj.c0.charValue());
+            web.executeScript("obj.c1 = '1'");
+            assertEquals('1', obj.c1.charValue());
+        });
+    }
+
+    // JDK-8089842
+    public static class CharMember {
+        public char c;
+    }
+
+    public @Test void testJSStringToJavaCharSpecilization() {
+        final WebEngine web = getEngine();
+
+        submit(() -> {
+            CharMember charTest = new CharMember();
+            bind("charTest", charTest);
+            // ascii char
+            web.executeScript("charTest.c = 'o';");
+            assertEquals('o', charTest.c);
+            web.executeScript("charTest.c = undefined;");
+            assertEquals('\0', charTest.c);
+            web.executeScript("charTest.c = '11111111o';");
+            assertEquals('1', charTest.c);
+            web.executeScript("charTest.c = null;");
+            assertEquals('\0', charTest.c);
+            web.executeScript("charTest.c = ' ';");
+            assertEquals(' ', charTest.c);
+            web.executeScript("charTest.c = '';");
+            assertEquals('\0', charTest.c);
+            web.executeScript("charTest.c = 65;");
+            assertEquals('A', charTest.c);
+            // unicode
+            web.executeScript("charTest.c = '\u03A9';");
+            assertEquals('Ω', charTest.c);
+        });
+    }
+
     public @Test void testBridgeExplicitOverloading() throws InterruptedException {
         final WebEngine web = getEngine();
 

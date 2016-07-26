@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -44,7 +44,6 @@ import com.sun.prism.Texture.Usage;
 import com.sun.prism.Texture.WrapMode;
 import com.sun.prism.impl.PrismSettings;
 import com.sun.prism.impl.TextureResourcePool;
-import com.sun.prism.impl.VertexBuffer;
 import com.sun.prism.impl.ps.BaseShaderFactory;
 import com.sun.prism.ps.Shader;
 import com.sun.prism.ps.ShaderFactory;
@@ -315,10 +314,6 @@ public class ES2ResourceFactory extends BaseShaderFactory {
             e.printStackTrace();
             throw new InternalError("Error loading stock shader " + name);
         }
-    }
-
-    public VertexBuffer createVertexBuffer(int maxQuads) {
-        return new VertexBuffer(maxQuads);
     }
 
     public void dispose() {

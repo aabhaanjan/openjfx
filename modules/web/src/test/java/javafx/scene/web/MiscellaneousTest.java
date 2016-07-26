@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -109,6 +109,38 @@ public class MiscellaneousTest extends TestBase {
                 "}\n" +
                 "</script>");
     }
+
+    @Test public void testWebViewWithoutSceneGraph() {
+        submit(() -> {
+             WebEngine engine = new WebView().getEngine();
+             engine.getLoadWorker().stateProperty().addListener(
+                    (observable, oldValue, newValue) -> {
+                        if (State.SUCCEEDED == newValue) {
+                            engine.executeScript(
+                                "window.scrollTo" +
+                                "(0, document.documentElement.scrollHeight)");
+                        }
+                    });
+             engine.loadContent("<body> <a href=#>hello</a></body>");
+        });
+    }
+
+    // JDK-8133775
+    @Test(expected = IllegalStateException.class) public void testDOMObjectThreadOwnership() {
+          class IllegalStateExceptionChecker {
+              public Object resultObject;
+              public void start() {
+                 WebEngine engine = new WebEngine();
+                 // Get DOM object from JavaFX Application Thread.
+                 resultObject = engine.executeScript("document.createElement('span')");
+              }
+           }
+           IllegalStateExceptionChecker obj = new IllegalStateExceptionChecker();
+           submit(obj::start);
+           // Try accessing the resultObject created in JavaFX Application Thread
+           // from someother thread. It should throw an exception.
+           obj.resultObject.toString();
+     }
 
     private WebEngine createWebEngine() {
         return submit(() -> new WebEngine());

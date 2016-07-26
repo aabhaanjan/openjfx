@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -42,7 +42,6 @@ import com.sun.prism.Texture.WrapMode;
 import com.sun.prism.impl.BaseResourceFactory;
 import com.sun.prism.impl.PrismSettings;
 import com.sun.prism.impl.TextureResourcePool;
-import com.sun.prism.impl.VertexBuffer;
 import com.sun.prism.impl.shape.BasicRoundRectRep;
 import com.sun.prism.impl.shape.BasicShapeRep;
 import com.sun.prism.shape.ShapeRep;
@@ -100,11 +99,6 @@ final class SWResourceFactory
     @Override public ShapeRep createPathRep() {
         return theRep;
     }
-
-    @Override public VertexBuffer createVertexBuffer(int maxQuads) {
-        throw new UnsupportedOperationException("createVertexBuffer:unimp");
-    }
-
 
     @Override public Presentable createPresentable(PresentableState pState) {
         if (PrismSettings.debug) {

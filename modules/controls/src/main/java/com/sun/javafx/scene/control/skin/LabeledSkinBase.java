@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -100,7 +100,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
      */
     final InvalidationListener graphicPropertyChangedListener = valueModel -> {
         invalidText = true;
-        getSkinnable().requestLayout();
+        if (getSkinnable() != null) getSkinnable().requestLayout();
     };
 
     private Rectangle textClip;
@@ -349,8 +349,8 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
                     if (mnemonicIndex == -1 ||
                             (bindings != null && !bindings.getMnemonicKeyCombination().equals(mnemonicCode))) {
                         removeMnemonic();
+                        containsMnemonic = false;
                     }
-                    containsMnemonic = false;
                 }
             }
             else {

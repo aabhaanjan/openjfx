@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 #include "WebPage.h"
@@ -36,6 +36,7 @@
 #include "FrameLoadRequest.h"
 #include "FrameLoaderClientJava.h"
 #include "FrameView.h"
+#include "GCController.h"
 #include "GraphicsContext.h"
 #include "HTMLFormElement.h"
 #include "IconController.h"
@@ -840,6 +841,8 @@ JNIEXPORT void JNICALL Java_com_sun_webkit_WebPage_twkInit
     settings.setLoadsImagesAutomatically(true);
     settings.setMinimumFontSize(0);
     settings.setMinimumLogicalFontSize(5);
+    // FIXME(arunprsad): Will be addressed in JDK-8148129.
+    settings.setAcceleratedCompositingEnabled(false);
     settings.setScriptEnabled(true);
     settings.setJavaScriptCanOpenWindowsAutomatically(true);
     settings.setPluginsEnabled(usePlugins);
@@ -855,7 +858,7 @@ JNIEXPORT void JNICALL Java_com_sun_webkit_WebPage_twkInit
     settings.setSansSerifFontFamily("SansSerif");
     settings.setFixedFontFamily("Monospaced");
 //    settings->setShowsURLsInToolTips(true);
-
+    RuntimeEnabledFeatures::sharedFeatures().setCSSRegionsEnabled(true);
     page->setDeviceScaleFactor(devicePixelScale);
 
     dynamic_cast<FrameLoaderClientJava*>(&page->mainFrame().loader().client())->setFrame(&page->mainFrame());
@@ -1074,6 +1077,14 @@ JNIEXPORT void JNICALL Java_com_sun_webkit_WebPage_twkLoad
     ));
 
     env->ReleaseStringUTFChars(text, stringChars);
+}
+
+JNIEXPORT jboolean JNICALL Java_com_sun_webkit_WebPage_twkIsLoading
+    (JNIEnv* env, jobject self, jlong pFrame)
+{
+    Frame* frame = static_cast<Frame*>(jlong_to_ptr(pFrame));
+
+    return bool_to_jbool(frame && frame->loader().isLoading());
 }
 
 JNIEXPORT void JNICALL Java_com_sun_webkit_WebPage_twkStop
@@ -2207,6 +2218,12 @@ JNIEXPORT jint JNICALL Java_com_sun_webkit_WebPage_twkWorkerThreadCount
   (JNIEnv* env, jclass)
 {
     return WorkerThread::workerThreadCount();
+}
+
+JNIEXPORT void JNICALL Java_com_sun_webkit_WebPage_twkDoJSCGarbageCollection
+  (JNIEnv*, jclass)
+{
+    gcController().garbageCollectNow();
 }
 
 #ifdef __cplusplus

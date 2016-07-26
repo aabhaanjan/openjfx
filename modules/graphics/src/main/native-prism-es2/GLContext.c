@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -1640,35 +1640,6 @@ JNIEXPORT void JNICALL Java_com_sun_prism_es2_GLContext_nDrawIndexedQuads
     if (pFloat && pByte) {
         setVertexAttributePointers(ctxInfo, pFloat, pByte);
         glDrawElements(GL_TRIANGLES, numQuads * 2 * 3, GL_UNSIGNED_SHORT, 0);
-    }
-
-    if (pByte)  (*env)->ReleasePrimitiveArrayCritical(env, datab, pByte, JNI_ABORT);
-    if (pFloat) (*env)->ReleasePrimitiveArrayCritical(env, dataf, pFloat, JNI_ABORT);
-}
-
-/*
- * Class:     com_sun_prism_es2_GLContext
- * Method:    nDrawTriangleList
- * Signature: (JI[F[B)V
- */
-JNIEXPORT void JNICALL Java_com_sun_prism_es2_GLContext_nDrawTriangleList
-  (JNIEnv *env, jclass class, jlong nativeCtxInfo, jint numTriangles,
-   jfloatArray dataf, jbyteArray datab)
-{
-    float *pFloat;
-    char *pByte;
-
-    ContextInfo *ctxInfo = (ContextInfo *) jlong_to_ptr(nativeCtxInfo);
-    if ((ctxInfo == NULL) || (ctxInfo->glVertexAttribPointer == NULL)) {
-        return;
-    }
-
-    pFloat = (float *)(*env)->GetPrimitiveArrayCritical(env, dataf, NULL);
-    pByte = (char *)(*env)->GetPrimitiveArrayCritical(env, datab, NULL);
-
-    if (pFloat && pByte) {
-        setVertexAttributePointers(ctxInfo, pFloat, pByte);
-        glDrawArrays(GL_TRIANGLES, 0, numTriangles * 3);
     }
 
     if (pByte)  (*env)->ReleasePrimitiveArrayCritical(env, datab, pByte, JNI_ABORT);
