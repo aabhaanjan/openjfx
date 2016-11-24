@@ -1,6 +1,7 @@
 openjfx (8u102-b14-2) UNRELEASED; urgency=medium
 
   * Team upload.
+  * Fixed the build failure with GCC 6 (Closes: #837021)
   * Transition to libswt-gtk-4-java
 
  -- Emmanuel Bourg <ebourg@apache.org>  Tue, 09 Aug 2016 17:21:52 +0200

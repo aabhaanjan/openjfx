@@ -13,3 +13,4 @@ fix-arm64-build.patch
 fix-arm32-build.patch
 15-fix-javadoc-refererences.diff
 16-reproducible-build-timestamp.patch
+17-gcc-compatibility.patch

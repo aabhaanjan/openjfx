@@ -1,11 +1,9 @@
 Description: Adjusts the compiler flags to enable the hardening and link to the system libraries
 Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: no
-Index: b/buildSrc/linux.gradle
-===================================================================
 --- a/buildSrc/linux.gradle
 +++ b/buildSrc/linux.gradle
-@@ -45,6 +45,9 @@ def commonFlags = [
+@@ -45,6 +45,9 @@
          "-fno-strict-aliasing", "-fPIC", "-fno-omit-frame-pointer", // optimization flags
          "-W", "-Wall", "-Wno-unused", "-Wno-parentheses", "-Werror=implicit-function-declaration"] // warning flags
  
@@ -15,7 +13,7 @@ Index: b/buildSrc/linux.gradle
  if (!IS_64) {
      commonFlags += "-m32"
  }
-@@ -54,7 +57,10 @@ def ccFlags = [
+@@ -54,7 +57,10 @@
          commonFlags, "-I$JDK_HOME/include", "-I$JDK_HOME/include/linux", "-c",
          IS_DEBUG_NATIVE ? ["-ggdb", "-DVERBOSE"] : ["-O2", "-DNDEBUG"]].flatten()
  //ccFlags.addAll(["-Wnon-virtual-dtor", "-Woverloaded-virtual", "-std=c++0x"])
@@ -26,7 +24,16 @@ Index: b/buildSrc/linux.gradle
  
  // Create $buildDir/linux_tools.properties file and load props from it
  setupTools("linux_tools",
-@@ -196,7 +202,7 @@ LINUX.iio.nativeSource = [
+@@ -180,7 +186,7 @@
+ 
+ LINUX.launcherlibrary = [:]
+ LINUX.launcherlibrary.compiler = compiler
+-LINUX.launcherlibrary.ccFlags = ["-DJAVAARCH=\"$OS_ARCH\"", "-I$JDK_HOME/include", "-I$JDK_HOME/include/linux", "-c", "-fPIC"]
++LINUX.launcherlibrary.ccFlags = ["-DJAVAARCH=\"$OS_ARCH\"", "-I$JDK_HOME/include", "-I$JDK_HOME/include/linux", "-c", "-fPIC", "-std=gnu++98"]
+ LINUX.launcherlibrary.linker = linker
+ LINUX.launcherlibrary.linkFlags = ["-ldl", "-lpthread", "-shared"]
+ if (!IS_64) {
+@@ -196,7 +202,7 @@
  LINUX.iio.compiler = compiler
  LINUX.iio.ccFlags = [ccFlags].flatten()
  LINUX.iio.linker = linker
@@ -35,11 +42,9 @@ Index: b/buildSrc/linux.gradle
  LINUX.iio.lib = "javafx_iio"
  
  LINUX.prismES2 = [:]
-Index: b/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefile
-===================================================================
 --- a/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefile
 +++ b/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefile
-@@ -26,11 +26,9 @@ CFLAGS = -fPIC                   \
+@@ -26,11 +26,9 @@
           -DGST_DISABLE_LOADSAVE  \
           -DGSTREAMER_LITE
  
@@ -54,11 +59,9 @@ Index: b/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefil
  
  PACKAGES_INCLUDES := $(shell pkg-config --cflags glib-2.0)
  PACKAGES_LIBS     := $(shell pkg-config --libs glib-2.0 gobject-2.0)
-Index: b/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefile
-===================================================================
 --- a/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefile
 +++ b/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefile
-@@ -27,12 +27,9 @@ CFLAGS = -fPIC                   \
+@@ -27,12 +27,9 @@
           -DGST_DISABLE_GST_DEBUG \
           -DGSTREAMER_LITE
  
@@ -74,11 +77,9 @@ Index: b/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefi
  
  INCLUDES = -I$(SRCBASE_DIR) \
  	   $(addprefix -I$(SRCBASE_DIR)/,$(DIRLIST)) \
-Index: b/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/Makefile
-===================================================================
 --- a/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/Makefile
 +++ b/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/Makefile
-@@ -48,11 +48,9 @@ CFLAGS =-fPIC                   \
+@@ -48,11 +48,9 @@
          -DGST_DISABLE_GST_DEBUG \
          -DGST_DISABLE_LOADSAVE
  
@@ -93,11 +94,9 @@ Index: b/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/M
  
  INCLUDES = -I$(BASE_DIR)/plugins                          \
  	   -I$(SRCBASE_DIR)/projects/build/linux/common   \
-Index: b/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
-===================================================================
 --- a/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
 +++ b/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
-@@ -59,11 +59,9 @@ else
+@@ -59,11 +59,9 @@
  	LDFLAGS = -Wl,-rpath,\$$ORIGIN -L$(BUILD_DIR) $(EXTRA_LDFLAGS)
  endif
  
