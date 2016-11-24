@@ -6,7 +6,7 @@ DIR=rt-$VERSION
 
 rm $3
 
-wget http://hg.openjdk.java.net/openjfx/8u60/rt/archive/$VERSION.tar.gz
+wget http://hg.openjdk.java.net/openjfx/8u-dev/rt/archive/$VERSION.tar.gz
 
 tar -xf $VERSION.tar.gz
 rm $VERSION.tar.gz
