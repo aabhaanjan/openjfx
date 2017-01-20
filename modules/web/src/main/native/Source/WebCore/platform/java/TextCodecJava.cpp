@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 #include "TextCodecJava.h"
@@ -19,7 +19,7 @@ static jmethodID getEncodingsMID;
 static jmethodID encodeMID;
 static jmethodID decodeMID;
 
-static PassOwnPtr<TextCodec> newTextCodecJava(const TextEncoding& encoding, const void*)
+static std::unique_ptr<TextCodec> newTextCodecJava(const TextEncoding& encoding, const void*)
 {
     return adoptPtr(new TextCodecJava(encoding));
 }

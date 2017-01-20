@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -7,8 +7,8 @@
 
 #include "JavaEnv.h"
 #include "StringJava.h"
-#include "PluginPackage.h"
-#include "PluginView.h"
+// #include "PluginPackage.h" //XXX: win only?
+// #include "PluginView.h" //XXX: win only?
 
 #include "com_sun_webkit_WCPluginWidget.h"
 
@@ -64,6 +64,7 @@ PluginWidgetJava::~PluginWidgetJava()
 }
 */
 
+/* //XXX recheck
 PluginView::~PluginView()
 {
     notImplemented();
@@ -103,5 +104,6 @@ void PluginView::setParentVisible(bool visible)
 {
     notImplemented();
 }
+*/
 
 } // namespace WebCore

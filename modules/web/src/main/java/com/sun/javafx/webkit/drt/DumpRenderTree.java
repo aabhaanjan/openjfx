@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -250,6 +250,11 @@ public final class DumpRenderTree {
     private static void notifyDone() {
         mlog("notifyDone");
         drt.setWaiting(false);
+    }
+
+    private static void overridePreference(String key, String value) {
+        mlog("overridePreference");
+        drt.webPage.overridePreference(key, value);
     }
 
     private synchronized void setLoaded(boolean loaded) {

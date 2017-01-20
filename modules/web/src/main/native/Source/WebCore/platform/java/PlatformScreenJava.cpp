@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -145,6 +145,11 @@ FloatRect screenRect(Widget* w)
 FloatRect screenAvailableRect(Widget* w)
 {
     return getScreenRect(w, true);
+}
+
+bool screenHasInvertedColors() //XXX: recheck
+{
+    return false;
 }
 
 } // namespace WebCore

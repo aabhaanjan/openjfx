@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 #include "config.h"
@@ -199,7 +199,7 @@ private:
 
 static PluginCache& pluginCache()
 {
-    DEFINE_STATIC_LOCAL(PluginCache, cache, ());
+    DEPRECATED_DEFINE_STATIC_LOCAL(PluginCache, cache, ());
     return cache;
 }
 

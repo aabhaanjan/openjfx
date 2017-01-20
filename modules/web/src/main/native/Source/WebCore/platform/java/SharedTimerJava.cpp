@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -46,6 +46,11 @@ void stopSharedTimer()
 
     env->CallStaticVoidMethod(getTimerClass(env), mid);
     CheckAndClearException(env);
+}
+
+// JDK-8146958
+void invalidateSharedTimer()
+{
 }
 
 } // namespace WebCore

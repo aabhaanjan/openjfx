@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #if ENABLE(NOTIFICATIONS) || ENABLE(LEGACY_NOTIFICATIONS)
 #include "NotificationClient.h"
@@ -25,6 +25,7 @@ public:
 #if ENABLE(NOTIFICATIONS)
     void requestPermission(ScriptExecutionContext*, PassRefPtr<NotificationPermissionCallback>) {}
 #endif
+    bool hasPendingPermissionRequests(ScriptExecutionContext*) const override { return false;};
     void cancelRequestsForPermission(ScriptExecutionContext*) {}
     Permission checkPermission(ScriptExecutionContext*) {return PermissionDenied;}
     ~NotificationClientJava() {}

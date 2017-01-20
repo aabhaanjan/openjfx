@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -60,6 +60,10 @@ void ContextMenuClientJava::speak(const String&)
 void ContextMenuClientJava::stopSpeaking()
 {
     notImplemented();
+}
+
+ContextMenuItem ContextMenuClientJava::shareMenuItem(const HitTestResult&) {
+    return ContextMenuItem(); //XXX: check implementation
 }
 
 }

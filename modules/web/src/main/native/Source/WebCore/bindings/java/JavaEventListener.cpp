@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -22,7 +22,9 @@ ScriptExecutionContext* JavaEventListener::scriptExecutionContext()
 
 bool JavaEventListener::operator==(const EventListener& other)
 {
-    const JavaEventListener* jother = dynamic_cast<const JavaEventListener*>(&other);
+    const JavaEventListener* jother = other.isJavaEventListener()
+                                        ? static_cast<const JavaEventListener*>(&other)
+                                        : NULL;
     return jother && isJavaEquals(m_joListener, jother->m_joListener);
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #ifndef ContextMenuClientJava_h
 #define ContextMenuClientJava_h
@@ -27,6 +27,8 @@ namespace WebCore {
         virtual bool isSpeaking();
         virtual void speak(const String&);
         virtual void stopSpeaking();
+
+        virtual ContextMenuItem shareMenuItem(const HitTestResult&) override;
     private:
         JGObject m_webPage;
     };

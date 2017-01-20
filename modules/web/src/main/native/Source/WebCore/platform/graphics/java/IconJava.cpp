@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -38,9 +38,9 @@ PassRefPtr<Icon> Icon::createIconForFiles(const Vector<String>& filenames)
     return 0;
 }
 
-void Icon::paint(GraphicsContext* gc, const IntRect& rect)
+void Icon::paint(GraphicsContext& gc, const FloatRect& rect)
 {
-    gc->platformContext()->rq().freeSpace(16)
+    gc.platformContext()->rq().freeSpace(16)
     << (jint)com_sun_webkit_graphics_GraphicsDecoder_DRAWICON
     << *m_jicon << (jint)rect.x() <<  (jint)rect.y();
 }
