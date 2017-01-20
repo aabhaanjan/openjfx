@@ -11,7 +11,7 @@ Forwarded: no
          options.addBooleanOption("XDignore.symbol.file").setValue(true);
          options.addBooleanOption("Xdoclint:none").setValue(!IS_DOC_LINT);
          options.addBooleanOption("javafx").setValue(true);
-@@ -2769,6 +2770,7 @@
+@@ -2751,6 +2752,7 @@
      options.windowTitle("${javadocTitle}")
      options.header("${javadocHeader}")
      options.bottom("${javadocBottom}")
