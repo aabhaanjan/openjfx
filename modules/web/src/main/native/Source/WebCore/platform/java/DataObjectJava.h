@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #ifndef DataObjectJava_h
 #define DataObjectJava_h
@@ -214,6 +214,7 @@ namespace WebCore {
         }
 
         DataObjectJava(const DataObjectJava& data) :
+            RefCounted<WebCore::DataObjectJava>(),
             m_availMimeTypes(data.m_availMimeTypes),
             m_url(data.m_url),
             m_urlTitle(data.m_urlTitle),

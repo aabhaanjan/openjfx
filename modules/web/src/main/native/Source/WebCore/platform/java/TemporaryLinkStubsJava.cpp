@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -10,7 +10,7 @@
 #include <wtf/unicode/icu/UnicodeIcu.h>
 #endif
 
-#include "Clipboard.h" // WebKit BUG: must be included from Editor.h
+#include "DataTransfer.h" // WebKit BUG: must be included from Editor.h
 #include "CookieStorage.h"
 #include "Color.h"
 #include "ChromiumBridge.h"
@@ -196,10 +196,10 @@ Color focusRingColor()
 
 
 // SharedBuffer
-PassRefPtr<SharedBuffer> SharedBuffer::createWithContentsOfFile(const String& filePath) {
-    notImplemented();
-    return adoptRef(new SharedBuffer);
-}
+// RefPtr<SharedBuffer> SharedBuffer::createWithContentsOfFile(const String& filePath) {
+//     notImplemented();
+//     return adoptRef(new SharedBuffer); //XXX remove adoptRef? PassRefPtr - > RefPtr
+// }
 
 // SVG
 /*

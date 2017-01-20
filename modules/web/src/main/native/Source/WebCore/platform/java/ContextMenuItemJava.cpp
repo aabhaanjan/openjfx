@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -93,6 +93,10 @@ ContextMenuItem::ContextMenuItem(PlatformMenuItemDescription descr)
 {
 }
 
+ContextMenuItem::ContextMenuItem()
+    : m_platformDescription(nullptr)
+{
+}
 
 ContextMenuItem::ContextMenuItem(ContextMenu* subMenu)
 {

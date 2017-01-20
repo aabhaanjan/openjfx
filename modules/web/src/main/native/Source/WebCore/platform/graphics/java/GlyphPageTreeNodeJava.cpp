@@ -1,18 +1,18 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
-#include "GlyphPageTreeNode.h"
+#include "GlyphPage.h"
 #include "GraphicsContextJava.h"
-#include "SimpleFontData.h"
+#include "Font.h" //XXX: SimpleFontData.h -> Font.h
 
 namespace WebCore {
 
 bool GlyphPage::fill(
     unsigned offset, unsigned length,
     UChar* buffer, unsigned bufferLength,
-    const SimpleFontData* fontData)
+    const Font* fontData)
 {
     JNIEnv* env = WebCore_GetJavaEnv();
 

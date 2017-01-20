@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 #include "EventNames.h"
@@ -131,9 +131,9 @@ PluginWidgetJava::PluginWidgetJava(
     const Vector<String> &paramNames,
     const Vector<String> &paramValues)
 :   m_element(element),
-    m_size(size),
     m_url(url),
     m_mimeType(mimeType),
+    m_size(size),
     m_paramNames(paramNames),
     m_paramValues(paramValues)
 {
@@ -216,10 +216,9 @@ void PluginWidgetJava::convertToPage(IntRect& rect)
     if (!m_element || !m_element->renderer())
         return;
 
-    RenderBox* renderer = toRenderBox(m_element->renderer());
+    RenderBox* renderer = downcast<RenderBox>(m_element->renderer()); //XXX: recheck
     if(renderer){
-       LayoutSize offset(
-           renderer->offsetFromContainer(renderer->container(), LayoutPoint()));
+        LayoutSize offset(renderer->offsetFromContainer(*renderer->container(), LayoutPoint()));
     }
 
 }
@@ -273,7 +272,7 @@ void PluginWidgetJava::invalidateWindowlessPluginRect(
     if (!m_element || !m_element->renderer())
         return;
 
-    RenderBox* renderer = toRenderBox(m_element->renderer());
+    RenderBox* renderer = downcast<RenderBox>(m_element->renderer()); //XXX: recheck
     if(renderer){
         renderer->repaintRectangle(rect);
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #ifndef RenderingQueue_h
 #define RenderingQueue_h
@@ -66,8 +66,8 @@ namespace WebCore {
         {}
 
         char* m_buffer;
-        int m_position;
         int m_capacity;
+        int m_position;
         JGObject m_nio_holder;
         Vector< RefPtr<RQRef> > m_refList;
     };
@@ -141,13 +141,14 @@ namespace WebCore {
         void flush();
         void disposeGraphics();
 
+        //we need to have RQRef here due to [deref]
+        //callback in destructor. Texture need to be released.
+        RefPtr<RQRef> m_rqoRenderingQueue;
+
         int m_capacity;
         bool m_autoFlush;
         RefPtr<ByteBuffer> m_buffer; // ref to the current ByteBuffer
 
-        //we need to have RQRef here due to [deref]
-        //callback in destructor. Texture need to be released.
-        RefPtr<RQRef> m_rqoRenderingQueue;
     };
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -154,7 +154,7 @@ void ContextMenu::show(ContextMenuController* ctrl, const IntPoint& loc)
         env->CallVoidMethod(
                 m_platformDescription,
                 mid,
-                (jobject) WebPage::jobjectFromPage(ctrl->page()),
+                (jobject) WebPage::jobjectFromPage(&ctrl->page()),
                 ptr_to_jlong(ctrl),
                 loc.x(),
                 loc.y());

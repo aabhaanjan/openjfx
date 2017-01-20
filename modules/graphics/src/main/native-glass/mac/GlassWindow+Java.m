@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -290,6 +290,11 @@ static NSWindow *s_grabWindow = nil;
     if ((self->owner != nil) && ([self->nsWindow parentWindow] == nil))
     {
         [self->owner addChildWindow:self->nsWindow ordered:NSWindowAbove];
+    }
+    // Make sure we synchronize scale factors which could have changed while
+    // we were not visible without invoking the overrides we watch.
+    if ([self->nsWindow screen]) {
+        [self->view notifyScaleFactorChanged:GetScreenScaleFactor([self->nsWindow screen])];
     }
 }
 

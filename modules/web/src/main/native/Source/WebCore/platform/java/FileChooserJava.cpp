@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
@@ -17,7 +17,6 @@ namespace WebCore {
   /*
 String FileChooser::basenameForWidth(const Font& font, int width) const
 {
-/*
     if (m_filenames.size() == 0) {
         return fileButtonNoFileSelectedLabel();
     }

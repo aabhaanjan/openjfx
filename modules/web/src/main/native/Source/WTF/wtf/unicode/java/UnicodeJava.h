@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #ifndef JSC_UNICODE_JAVA_H
 #define JSC_UNICODE_JAVA_H
@@ -21,7 +21,11 @@ typedef wchar_t UChar;
 typedef uint16_t UChar;
 #endif
 
-#ifndef __UMACHINE_H__
+// #ifdef UChar32
+// #undef UChar32
+// #endif
+
+#ifndef __UMACHINE_H__ //XXX: recheck
 typedef uint32_t UChar32;
 #endif
 
@@ -249,6 +253,7 @@ namespace WTF {
     }
 
     inline bool hasLineBreakingPropertyComplexContext(UChar32 c) {
+        (void)c;
         return false;
     }
 

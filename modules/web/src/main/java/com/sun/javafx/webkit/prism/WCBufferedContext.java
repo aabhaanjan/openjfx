@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -209,5 +209,12 @@ final class WCBufferedContext extends WCGraphicsPrismContext {
             setClip(0, 0, img.getWidth(), img.getHeight());
             isInitialized = true;
         }
+    }
+
+    @Override public void dispose() {
+        // NOP
+        // BufferedImage context is mainly used by WebKit to draw canvas and
+        // tiled SVG images and it doesn't hold complex layers. Making this
+        // method NOP helps to render tiled SVG images asynchronously.
     }
 }

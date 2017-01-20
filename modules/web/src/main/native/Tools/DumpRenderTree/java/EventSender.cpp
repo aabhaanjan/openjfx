@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 #include "EventSender.h"
@@ -557,7 +557,7 @@ void makeEventSender(JSContextRef context, JSObjectRef windowObject,
         { "dragMode", getDragModeCallback, setDragModeCallback, kJSPropertyAttributeNone },
         { 0, 0, 0, 0 }
     };
-    static int attribute = kJSPropertyAttributeReadOnly | kJSPropertyAttributeDontDelete;
+    static const auto attribute = kJSPropertyAttributeReadOnly | kJSPropertyAttributeDontDelete;
     static JSStaticFunction staticFunctions[] = {
         { "keyDown",                   keyDownCallback,                   attribute },
         { "mouseDown",                 mouseDownCallback,                 attribute },

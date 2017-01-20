@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #ifndef _JavaEventListener_h
 #define _JavaEventListener_h
@@ -31,7 +31,7 @@ public:
 
     JGObject m_joListener;
     static ScriptExecutionContext* scriptExecutionContext();
-
+    virtual bool isJavaEventListener() const override { return true; }
 private:
     static Vector<ScriptExecutionContext*> sm_vScriptExecutionContexts;
 };

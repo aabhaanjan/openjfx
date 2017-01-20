@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -1181,5 +1181,24 @@ public class MultipleSelectionModelImplTest {
         });
 
         sl.dispose();
+    }
+
+    @Test public void test_jdk_8144501() {
+        // We only test TreeTableView and TableView here here
+        if (!(model instanceof TableViewSelectionModel)) return;
+
+        model.setSelectionMode(SelectionMode.MULTIPLE);
+        model.select(2);
+        model.select(3);
+        ListChangeListener<String> listener = change -> {
+            while (change.next()) {
+                assertNotNull(change.getList());
+                assertEquals(1, change.getList().size());
+                assertNotNull(change.getList().get(0));
+            }
+        };
+        model.getSelectedItems().addListener(listener);
+        model.clearSelection(2);
+        model.getSelectedItems().removeListener(listener);
     }
 }

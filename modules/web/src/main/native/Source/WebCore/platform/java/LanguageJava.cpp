@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 #include "config.h"
@@ -13,7 +13,7 @@ namespace WebCore {
 
 static String platformLanguage()
 {
-    DEFINE_STATIC_LOCAL(String, computedDefaultLanguage, ());
+    DEPRECATED_DEFINE_STATIC_LOCAL(String, computedDefaultLanguage, ());
     if (computedDefaultLanguage.isEmpty())
         computedDefaultLanguage.append(ChromiumBridge::computedDefaultLanguage());
     return computedDefaultLanguage;

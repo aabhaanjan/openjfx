@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 #ifndef ResourceRequest_h
@@ -40,8 +40,8 @@ namespace WebCore {
     private:
         friend class ResourceRequestBase;
 
-        PassOwnPtr<CrossThreadResourceRequestData> doPlatformCopyData(PassOwnPtr<CrossThreadResourceRequestData> data) const { return data; }
-        void doPlatformAdopt(PassOwnPtr<CrossThreadResourceRequestData>) { }
+        std::unique_ptr<CrossThreadResourceRequestData> doPlatformCopyData(std::unique_ptr<CrossThreadResourceRequestData> data) const { return data; }
+        void doPlatformAdopt(std::unique_ptr<CrossThreadResourceRequestData>) { }
     };
 
     struct CrossThreadResourceRequestData : public CrossThreadResourceRequestDataBase {

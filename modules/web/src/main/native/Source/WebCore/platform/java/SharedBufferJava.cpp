@@ -1,12 +1,20 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 #include "config.h"
 
 #include "SharedBuffer.h"
+#include "NotImplemented.h"
 #include "com_sun_webkit_SharedBuffer.h"
 
-using namespace WebCore;
+namespace WebCore {
+
+// JDK-8146959
+RefPtr<SharedBuffer> SharedBuffer::createFromReadingFile(const String& filePath)
+{
+  notImplemented();
+  return RefPtr<SharedBuffer>();
+}
 
 #ifdef __cplusplus
 extern "C" {
@@ -79,3 +87,4 @@ JNIEXPORT void JNICALL Java_com_sun_webkit_SharedBuffer_twkDispose
 #ifdef __cplusplus
 }
 #endif
+}   // namespace WebCore
