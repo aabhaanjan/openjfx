@@ -2,6 +2,7 @@
 
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 DEB_HOST_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU)
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 # FIXME: looks like s390x is recognized as a 32bit arch ...
 # more heap on s390x needed
@@ -38,6 +39,13 @@ override_dh_auto_build-arch:
 	cp modules/web/src/main/java/com/sun/webkit/Invoker.java         modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/
 	cp modules/web/src/main/java/com/sun/webkit/dom/JSObject.java    modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/dom/
 	cp modules/web/src/main/java/com/sun/webkit/perf/PerfLogger.java modules/web/build/linux/Release/WebCore/generated/java/com/sun/webkit/perf/
+
+	# Copy the ICU and sqlite libraries required by JavaScriptCore
+	mkdir -p modules/web/build/linux/import/lib/
+	cp /usr/lib/$(DEB_HOST_MULTIARCH)/libicui18n.so modules/web/build/linux/import/lib/libicui18n.a
+	cp /usr/lib/$(DEB_HOST_MULTIARCH)/libicuuc.so   modules/web/build/linux/import/lib/libicuuc.a
+	cp /usr/lib/$(DEB_HOST_MULTIARCH)/libicudata.so modules/web/build/linux/import/lib/libicudata.a
+	cp /usr/lib/$(DEB_HOST_MULTIARCH)/libsqlite3.so modules/web/build/linux/import/lib/libsqlite3.a
 
 	$(SET_JAVA_OPTS) dh_auto_build -- sdk -x javadoc -x src
 
