@@ -6,7 +6,7 @@ Uploaders: Emmanuel Bourg <ebourg@apache.org>
 Build-Depends: antlr3,
                bison,
                cmake,
-               debhelper (>= 9),
+               debhelper (>= 10),
                flex,
                gperf,
                gradle-debian-helper,
