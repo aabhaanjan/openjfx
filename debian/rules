@@ -59,7 +59,9 @@ override_dh_install-arch:
 	dh_install -popenjfx build/sdk/bin/* $(JAVA_HOME)/bin
 	dh_install -popenjfx build/sdk/man   $(JAVA_HOME)
 	dh_link -popenjfx $(JAVA_HOME)/bin/javafxpackager           /usr/bin/javafxpackager
+	dh_link -popenjfx $(JAVA_HOME)/bin/javapackager             /usr/bin/javapackager
 	dh_link -popenjfx $(JAVA_HOME)/man/man1/javafxpackager.1.gz /usr/share/man/man1/javafxpackager.1.gz
+	dh_link -popenjfx $(JAVA_HOME)/man/man1/javapackager.1.gz   /usr/share/man/man1/javapackager.1.gz
 
 	dh_link -popenjfx $(OPENJFX_HOME)/jre/lib/jfxswt.jar        $(JAVA_HOME)/jre/lib/jfxswt.jar
 	dh_link -popenjfx $(OPENJFX_HOME)/jre/lib/javafx.properties $(JAVA_HOME)/jre/lib/javafx.properties

@@ -7,6 +7,7 @@ openjfx (8u121-b13-1) UNRELEASED; urgency=medium
     - Copy libicui18n.so, libicuuc.so, libicudata.so and libsqlite3.so in the
       modules/web/build/linux/import/lib directory to build JavaScriptCore
     - Backported a fix for an ambiguous call to the pow() function in BoxShape
+    - Install the javapackager script and its man page
   * Switch to debhelper level 10
 
  -- Emmanuel Bourg <ebourg@apache.org>  Fri, 20 Jan 2017 11:58:13 +0100
