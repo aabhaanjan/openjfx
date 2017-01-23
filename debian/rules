@@ -23,7 +23,7 @@ jvm_arch_map = \
 jvm_arch   := $(strip $(patsubst $(DEB_HOST_ARCH_CPU)=%, %, $(filter $(DEB_HOST_ARCH_CPU)=%, $(jvm_arch_map))))
 
 %:
-	dh $@ --buildsystem=gradle
+	dh $@ --buildsystem=gradle --no-parallel
 
 override_dh_auto_configure-arch:
 	cp debian/gradle.properties .

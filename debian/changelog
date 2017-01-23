@@ -9,6 +9,7 @@ openjfx (8u121-b13-1) UNRELEASED; urgency=medium
     - Backported a fix for an ambiguous call to the pow() function in BoxShape
     - Install the javapackager script and its man page
   * Switch to debhelper level 10
+  * Disabled parallel building to avoid build failures
 
  -- Emmanuel Bourg <ebourg@apache.org>  Fri, 20 Jan 2017 11:58:13 +0100
 
