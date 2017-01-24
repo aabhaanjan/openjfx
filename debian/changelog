@@ -1,4 +1,4 @@
-openjfx (8u121-b13-1) UNRELEASED; urgency=medium
+openjfx (8u121-b13-1) unstable; urgency=medium
 
   * Team upload.
   * New upstream release
@@ -11,7 +11,7 @@ openjfx (8u121-b13-1) UNRELEASED; urgency=medium
   * Switch to debhelper level 10
   * Disabled parallel building to avoid build failures
 
- -- Emmanuel Bourg <ebourg@apache.org>  Fri, 20 Jan 2017 11:58:13 +0100
+ -- Emmanuel Bourg <ebourg@apache.org>  Tue, 24 Jan 2017 12:57:41 +0100
 
 openjfx (8u111-b14-1) unstable; urgency=medium
 
