@@ -82,11 +82,5 @@ override_dh_install-indep:
 
 	dh_install -popenjfx-source build/javafx-src.zip $(JAVA_HOME)
 
-override_dh_auto_clean:
-	dh_auto_clean
-	rm -f gradle.properties
-	rm -f modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/CodeGeneratorInspectorStrings.pyc
-	rm -f modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/jsmin.py
-
 get-orig-source:
 	uscan --download-current-version --force-download --rename
