@@ -98,3 +98,15 @@ Index: b/buildSrc/linux.gradle
  
  LINUX.iio = [:]
  LINUX.iio.javahInclude = ["com/sun/javafx/iio/**/*"]
+--- a/build.gradle
++++ b/build.gradle
+@@ -2568,9 +2568,6 @@
+                 } else if (t.name == "mac") {
+                     // Add any osx specific flags.
+                 } else if (t.name == "linux") {
+-                    if (!IS_64) {
+-                        cmakeArgs = "-DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32"
+-                    }
+                 } else if (t.name.startsWith("arm")) {
+                     fail("ARM target is not supported as of now.")
+                 }

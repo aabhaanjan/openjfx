@@ -1,3 +1,10 @@
+openjfx (8u121-b13-2) UNRELEASED; urgency=medium
+
+  * Team upload.
+  * Removed the -m32 flags
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Wed, 25 Jan 2017 08:47:31 +0100
+
 openjfx (8u121-b13-1) unstable; urgency=medium
 
   * Team upload.
