@@ -1,10 +1,10 @@
-openjfx (8u131-b11-1) UNRELEASED; urgency=medium
+openjfx (8u131-b11-1) unstable; urgency=medium
 
   * Team upload.
   * New upstream release
     - Refreshed the patches
 
- -- Emmanuel Bourg <ebourg@apache.org>  Tue, 18 Apr 2017 23:51:43 +0200
+ -- Emmanuel Bourg <ebourg@apache.org>  Wed, 19 Apr 2017 08:50:30 +0200
 
 openjfx (8u121-b13-2) unstable; urgency=medium
 
