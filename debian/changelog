@@ -2,6 +2,7 @@ openjfx (8u131-b11-2) UNRELEASED; urgency=medium
 
   * Team upload.
   * Make a Release instead of a Debug build
+  * Disabled the sampling profiler in WebKit (fails to build on arm64)
 
  -- Emmanuel Bourg <ebourg@apache.org>  Wed, 19 Apr 2017 15:03:12 +0200
 
