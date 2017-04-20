@@ -14,3 +14,4 @@ fix-arm32-build.patch
 16-reproducible-build-timestamp.patch
 17-gcc-compatibility.patch
 19-disable-webkit-sampling-profiler.patch
+20-fix-ppc-build.patch

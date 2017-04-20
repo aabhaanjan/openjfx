@@ -1,3 +1,10 @@
+openjfx (8u131-b11-3) UNRELEASED; urgency=medium
+
+  * Team upload.
+  * Fixed a build failure on powerpc caused by a different ucontext_t definition
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Thu, 20 Apr 2017 10:12:13 +0200
+
 openjfx (8u131-b11-2) unstable; urgency=medium
 
   * Team upload.
