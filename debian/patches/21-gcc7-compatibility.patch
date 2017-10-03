@@ -1,0 +1,88 @@
+Description: Fixes the compilation errors with GCC 7
+Origin: backport, http://trac.webkit.org/changeset/217601/webkit
+                  http://trac.webkit.org/changeset/211434/webkit
+                  http://trac.webkit.org/changeset/218488/webkit
+--- a/modules/web/src/main/native/Source/cmake/OptionsCommon.cmake
++++ b/modules/web/src/main/native/Source/cmake/OptionsCommon.cmake
+@@ -26,8 +26,10 @@
+ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+ 
+ if (CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
++    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-expansion-to-defined")
+     set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fno-exceptions -fno-strict-aliasing")
+     # set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-exceptions -fno-strict-aliasing") #//XXX disable RTTI?
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-expansion-to-defined")
+     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-exceptions -fno-strict-aliasing -fno-rtti")
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+ endif ()
+--- a/modules/web/src/main/native/Source/JavaScriptCore/runtime/JSArrayBufferView.h
++++ b/modules/web/src/main/native/Source/JavaScriptCore/runtime/JSArrayBufferView.h
+@@ -162,7 +162,7 @@
+     bool isNeutered() { return hasArrayBuffer() && !vector(); }
+     void neuter();
+ 
+-    void* vector()
++    void* vector() const
+     {
+         return m_vector.getPredicated(
+             this,
+--- a/modules/web/src/main/native/Source/JavaScriptCore/inspector/InspectorBackendDispatcher.h
++++ b/modules/web/src/main/native/Source/JavaScriptCore/inspector/InspectorBackendDispatcher.h
+@@ -29,6 +29,7 @@
+ 
+ #include "InspectorFrontendRouter.h"
+ #include "InspectorProtocolTypes.h"
++#include <functional>
+ #include <wtf/Optional.h>
+ #include <wtf/RefCounted.h>
+ #include <wtf/text/WTFString.h>
+--- a/modules/web/src/main/native/Source/WebCore/css/CSSValue.h
++++ b/modules/web/src/main/native/Source/WebCore/css/CSSValue.h
+@@ -23,6 +23,7 @@
+ 
+ #include "ExceptionCode.h"
+ #include "URLHash.h"
++#include <functional>
+ #include <wtf/ListHashSet.h>
+ #include <wtf/RefCounted.h>
+ #include <wtf/RefPtr.h>
+--- a/modules/web/src/main/native/Source/WebCore/css/StyleSheetContents.h
++++ b/modules/web/src/main/native/Source/WebCore/css/StyleSheetContents.h
+@@ -24,6 +24,7 @@
+ #include "CSSParserMode.h"
+ #include "CachePolicy.h"
+ #include "URL.h"
++#include <functional>
+ #include <wtf/HashMap.h>
+ #include <wtf/ListHashSet.h>
+ #include <wtf/RefCounted.h>
+--- a/modules/web/src/main/native/Source/WebCore/dom/SlotAssignment.h
++++ b/modules/web/src/main/native/Source/WebCore/dom/SlotAssignment.h
+@@ -28,6 +28,7 @@
+ 
+ #if ENABLE(SHADOW_DOM) || ENABLE(DETAILS_ELEMENT)
+ 
++#include <functional>
+ #include <wtf/HashMap.h>
+ #include <wtf/HashSet.h>
+ #include <wtf/Vector.h>
+--- a/modules/web/src/main/native/Source/WebCore/loader/NetscapePlugInStreamLoader.h
++++ b/modules/web/src/main/native/Source/WebCore/loader/NetscapePlugInStreamLoader.h
+@@ -30,6 +30,7 @@
+ #define NetscapePlugInStreamLoader_h
+ 
+ #include "ResourceLoader.h"
++#include <functional>
+ #include <wtf/Forward.h>
+ 
+ namespace WebCore {
+--- a/modules/web/src/main/native/Source/WebCore/loader/ResourceLoader.h
++++ b/modules/web/src/main/native/Source/WebCore/loader/ResourceLoader.h
+@@ -34,6 +34,7 @@
+ #include "ResourceLoaderTypes.h"
+ #include "ResourceRequest.h"
+ #include "ResourceResponse.h"
++#include <functional>
+ #include <wtf/Forward.h>
+ 
+ namespace WTF {

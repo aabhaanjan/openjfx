@@ -15,3 +15,4 @@ fix-arm32-build.patch
 17-gcc-compatibility.patch
 19-disable-webkit-sampling-profiler.patch
 20-fix-ppc-build.patch
+21-gcc7-compatibility.patch
