@@ -41,7 +41,7 @@ Build-Depends: antlr3,
                ruby,
                x11proto-core-dev,
                x11proto-xf86vidmode-dev
-Standards-Version: 3.9.8
+Standards-Version: 4.1.1
 Vcs-Git: https://anonscm.debian.org/git/pkg-java/openjfx.git
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-java/openjfx.git
 Homepage: http://openjdk.java.net/projects/openjfx/
