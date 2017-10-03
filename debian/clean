@@ -1,5 +1,7 @@
 build/
 gradle.properties
+modules/web/src/main/native/Source/JavaScriptCore/disassembler/udis86/ud_opcode.pyc
+modules/web/src/main/native/Source/JavaScriptCore/disassembler/udis86/ud_optable.pyc
 modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/jsmin.py
 modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/jsmin.pyc
 modules/web/src/main/native/Source/JavaScriptCore/inspector/scripts/cssmin.pyc
