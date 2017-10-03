@@ -1,0 +1,23 @@
+Description: JDK-8185792: Entering accents in a textfield on a JFXPanel produces NPE
+Origin: backport, http://hg.openjdk.java.net/openjfx/10-dev/rt/rev/ef0ec553083f
+Bug: https://bugs.openjdk.java.net/browse/JDK-8185792
+Bug-Debian: https://bugs.debian.org/872619
+--- a/modules/swing/src/main/java/javafx/embed/swing/JFXPanel.java
++++ b/modules/swing/src/main/java/javafx/embed/swing/JFXPanel.java
+@@ -640,11 +640,15 @@
+     private void sendInputMethodEventToFX(InputMethodEvent e) {
+         String t = InputMethodSupport.getTextForEvent(e);
+ 
++        int insertionIndex = 0;
++        if (e.getCaret() != null) {
++            insertionIndex = e.getCaret().getInsertionIndex();
++        }
+         scenePeer.inputMethodEvent(
+                 javafx.scene.input.InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
+                 InputMethodSupport.inputMethodEventComposed(t, e.getCommittedCharacterCount()),
+                 t.substring(0, e.getCommittedCharacterCount()),
+-                e.getCaret().getInsertionIndex());
++                insertionIndex);
+     }
+ 
+ 

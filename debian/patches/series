@@ -16,3 +16,4 @@ fix-arm32-build.patch
 19-disable-webkit-sampling-profiler.patch
 20-fix-ppc-build.patch
 21-gcc7-compatibility.patch
+22-JDK-8185792-accented-characters-support.patch
