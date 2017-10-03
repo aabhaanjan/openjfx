@@ -1,0 +1,9 @@
+openjfx source: insane-line-length-in-source-file          modules/web/src/main/native/Source/JavaScriptCore/tests/stress/*
+openjfx source: source-contains-prebuilt-javascript-object modules/web/src/main/native/Source/JavaScriptCore/tests/stress/*
+openjfx source: source-is-missing                          modules/web/src/main/native/Source/JavaScriptCore/tests/stress/*
+
+openjfx source: insane-line-length-in-source-file          modules/web/src/main/native/Source/JavaScriptCore/tests/mozilla/*
+openjfx source: source-contains-prebuilt-javascript-object modules/web/src/main/native/Source/JavaScriptCore/tests/mozilla/*
+openjfx source: source-is-missing                          modules/web/src/main/native/Source/JavaScriptCore/tests/mozilla/*
+
+openjfx source: build-depends-on-specific-java-doc-package openjdk-8-doc
