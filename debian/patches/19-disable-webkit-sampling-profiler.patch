@@ -1,14 +1,14 @@
-Description: Disables the sampling profilter in WebKit (fails to build on arm64)
+Description: Disables the sampling profiler in WebKit (fails to build on arm64)
 Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: not-needed
 --- a/modules/web/src/main/native/Source/WTF/wtf/Platform.h
 +++ b/modules/web/src/main/native/Source/WTF/wtf/Platform.h
-@@ -841,7 +841,7 @@
-  * sampling profiler is enabled if WebKit uses pthreads and glibc. */
- #if !defined(ENABLE_SAMPLING_PROFILER)
- #if (OS(DARWIN) || OS(WINDOWS) || PLATFORM(GTK) || PLATFORM(EFL)) && ENABLE(JIT)
--#define ENABLE_SAMPLING_PROFILER 1
-+#define ENABLE_SAMPLING_PROFILER 0
- #else
- #define ENABLE_SAMPLING_PROFILER 0
+@@ -847,6 +847,8 @@
  #endif
+ #endif
+ 
++#define ENABLE_SAMPLING_PROFILER 0
++
+ /* Counts uses of write barriers using sampling counters. Be sure to also
+    set ENABLE_SAMPLING_COUNTERS to 1. */
+ #if !defined(ENABLE_WRITE_BARRIER_PROFILING)
