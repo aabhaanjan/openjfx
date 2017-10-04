@@ -4,6 +4,8 @@ openjfx (8u141-b14-1) UNRELEASED; urgency=medium
   * New upstream release:
     - Fixes CVE-2017-10086 and CVE-2017-10114 (Closes: #870860)
   * Fixed the build failure with GCC 7 (Closes: #853593)
+  * Use the gold linker with memory saving options to avoid build failures
+    caused by lack of RAM (Closes: #857464)
   * Fixed a build failure on powerpc caused by a different ucontext_t definition
   * Backported a fix for accented characters in textfields (Closes: #872619)
   * Added lintian overrides to remove the warnings related to the js files

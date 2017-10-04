@@ -17,3 +17,4 @@ fix-arm32-build.patch
 20-fix-ppc-build.patch
 21-gcc7-compatibility.patch
 22-JDK-8185792-accented-characters-support.patch
+23-webcore-linker-flags.patch

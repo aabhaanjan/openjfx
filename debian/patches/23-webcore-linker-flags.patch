@@ -1,0 +1,15 @@
+Descrition: Use the gold linker with memory saving options to avoid build failures caused by lack of RAM
+Author: Emmanuel Bourg <ebourg@apache.org>
+Forwarded: no
+Bug-Debian: https://bugs.debian.org/857464
+--- a/modules/web/src/main/native/Source/WebCore/CMakeLists.txt
++++ b/modules/web/src/main/native/Source/WebCore/CMakeLists.txt
+@@ -3809,7 +3809,7 @@
+ if (APPLE)
+     set_target_properties(WebCore PROPERTIES LINK_FLAGS "-exported_symbols_list ${WEBCORE_DIR}/mapfile-macosx")
+ elseif (UNIX)
+-    set_target_properties(WebCore PROPERTIES LINK_FLAGS "-Xlinker -version-script=${WEBCORE_DIR}/mapfile-vers -Wl,--no-undefined")
++    set_target_properties(WebCore PROPERTIES LINK_FLAGS "-Xlinker -version-script=${WEBCORE_DIR}/mapfile-vers -fuse-ld=gold -Wl,--no-undefined -Wl,--no-keep-memory -Wl,--no-map-whole-files -Wl,--no-keep-files-mapped")
+ elseif (WIN32)
+     # Adds version information to jfxwebkit.dll created by Gradle build, see JDK-8166265
+     set_target_properties(WebCore PROPERTIES LINK_FLAGS "${CMAKE_BINARY_DIR}/WebCore/obj/version.res")
