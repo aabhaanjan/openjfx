@@ -57,12 +57,15 @@ Description: JavaFX/OpenJFX 8 - Rich client application platform for Java
 Package: libopenjfx-java
 Architecture: all
 Depends: libopenjfx-jni, ${misc:Depends}
+Suggests: openjfx
 Description: JavaFX/OpenJFX 8 - Rich client application platform for Java (Java libraries)
  JavaFX/OpenJFX is a set of graphics and media APIs that enables Java developers
  to design, create, test, debug, and deploy rich client applications that
  operate consistently across diverse platforms.
  .
- This package contains the Java libraries.
+ This package contains the Java libraries only, installing it won't add
+ the JavaFX classes to the default classpath automatically. The integration
+ with the JRE is provided by the openjfx package.
 
 Package: libopenjfx-jni
 Architecture: any

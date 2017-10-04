@@ -8,6 +8,7 @@ openjfx (8u141-b14-1) UNRELEASED; urgency=medium
     caused by lack of RAM (Closes: #857464)
   * Fixed a build failure on powerpc caused by a different ucontext_t definition
   * Backported a fix for accented characters in textfields (Closes: #872619)
+  * libopenjfx-java now suggests installing openjfx (Closes: #849419)
   * Added lintian overrides to remove the warnings related to the js files
   * Standards-Version updated to 4.1.1
 
