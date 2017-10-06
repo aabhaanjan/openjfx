@@ -4,6 +4,7 @@ openjfx (8u141-b14-3) UNRELEASED; urgency=medium
   * Compile WebKit with the -g1 debugging level to reduce the memory used
   * Reworked the patch disabling the sampling profiler to stop the compiler
     from complaining about the redefinition of ENABLE_SAMPLING_PROFILER.
+  * Disabled the WebKit JIT on ARMv4
 
  -- Emmanuel Bourg <ebourg@apache.org>  Fri, 06 Oct 2017 10:05:51 +0200
 

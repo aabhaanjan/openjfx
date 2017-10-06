@@ -20,3 +20,4 @@ fix-arm32-build.patch
 23-webcore-linker-flags.patch
 24-disable-buildSrc-tests.patch
 25-webkit-debug-level.patch
+26-disable-webkit-jit-for-armv4.patch
