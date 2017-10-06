@@ -1,4 +1,4 @@
-openjfx (8u141-b14-3) UNRELEASED; urgency=medium
+openjfx (8u141-b14-3) unstable; urgency=medium
 
   * Team upload.
   * Compile WebKit with the -g1 debugging level to reduce the memory used
@@ -6,7 +6,7 @@ openjfx (8u141-b14-3) UNRELEASED; urgency=medium
     from complaining about the redefinition of ENABLE_SAMPLING_PROFILER.
   * Disabled the WebKit JIT on ARMv4
 
- -- Emmanuel Bourg <ebourg@apache.org>  Fri, 06 Oct 2017 10:05:51 +0200
+ -- Emmanuel Bourg <ebourg@apache.org>  Fri, 06 Oct 2017 13:15:57 +0200
 
 openjfx (8u141-b14-2) unstable; urgency=medium
 
