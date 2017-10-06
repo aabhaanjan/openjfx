@@ -1,3 +1,10 @@
+openjfx (8u141-b14-3) UNRELEASED; urgency=medium
+
+  * Team upload.
+  * Compile WebKit with the -g1 debugging level to reduce the memory used
+
+ -- Emmanuel Bourg <ebourg@apache.org>  Fri, 06 Oct 2017 10:05:51 +0200
+
 openjfx (8u141-b14-2) unstable; urgency=medium
 
   * Team upload.
