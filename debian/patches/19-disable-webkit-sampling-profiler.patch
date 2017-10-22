@@ -3,12 +3,12 @@ Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: not-needed
 --- a/modules/web/src/main/native/Source/cmake/WebKitFeatures.cmake
 +++ b/modules/web/src/main/native/Source/cmake/WebKitFeatures.cmake
-@@ -171,7 +171,7 @@
-     WEBKIT_OPTION_DEFINE(ENABLE_RESOURCE_TIMING "Toggle Resource Timing support" PRIVATE OFF)
+@@ -163,7 +163,7 @@
+     WEBKIT_OPTION_DEFINE(ENABLE_RESOLUTION_MEDIA_QUERY "Toggle resolution media query support" PRIVATE OFF)
      WEBKIT_OPTION_DEFINE(ENABLE_RESOURCE_USAGE "Toggle resource usage support" PRIVATE OFF)
      WEBKIT_OPTION_DEFINE(ENABLE_RUBBER_BANDING "Toggle rubber banding support" PRIVATE OFF)
 -    WEBKIT_OPTION_DEFINE(ENABLE_SAMPLING_PROFILER "Toggle sampling profiler support" PRIVATE ON)
 +    WEBKIT_OPTION_DEFINE(ENABLE_SAMPLING_PROFILER "Toggle sampling profiler support" PRIVATE OFF)
-     WEBKIT_OPTION_DEFINE(ENABLE_SECCOMP_FILTERS "Toggle Linux seccomp filters for the WebProcess support" PRIVATE OFF)
      WEBKIT_OPTION_DEFINE(ENABLE_SERVICE_CONTROLS "Toggle service controls support" PRIVATE OFF)
-     WEBKIT_OPTION_DEFINE(ENABLE_SHADOW_DOM "Toggle shadow dom" PRIVATE OFF)
+     WEBKIT_OPTION_DEFINE(ENABLE_SMOOTH_SCROLLING "Toggle smooth scrolling" PRIVATE OFF)
+     WEBKIT_OPTION_DEFINE(ENABLE_SPEECH_SYNTHESIS "Toggle Speech Synthesis API support)" PRIVATE OFF)

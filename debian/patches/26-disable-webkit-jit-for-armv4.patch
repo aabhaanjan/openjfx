@@ -3,7 +3,7 @@ Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: no
 --- a/modules/web/src/main/native/Source/WTF/wtf/Platform.h
 +++ b/modules/web/src/main/native/Source/WTF/wtf/Platform.h
-@@ -759,6 +759,11 @@
+@@ -738,6 +738,11 @@
  #define ENABLE_JIT 1
  #endif
  

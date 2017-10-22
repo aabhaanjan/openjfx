@@ -1,8 +1,6 @@
-Index: b/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefile
-===================================================================
 --- a/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefile
 +++ b/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefile
-@@ -55,11 +55,6 @@ INCLUDES += $(shell pkg-config --cflags
+@@ -55,11 +55,6 @@
  LDFLAGS  += $(shell pkg-config --libs libavcodec libavformat)
  endif
  
@@ -14,11 +12,9 @@ Index: b/modules/media/src/main/native/gstreamer/projects/linux/avplugin/Makefil
  SOURCES = av/fxavcodecplugin.c  \
            av/avelement.c        \
            av/decoder.c          \
-Index: b/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefile
-===================================================================
 --- a/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefile
 +++ b/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefile
-@@ -45,11 +45,6 @@ PACKAGES_LIBS := $(shell pkg-config --li
+@@ -45,11 +45,6 @@
  
  LDFLAGS = -L$(BUILD_DIR) -lgstreamer-lite $(PACKAGES_LIBS) 
  
@@ -30,11 +26,9 @@ Index: b/modules/media/src/main/native/gstreamer/projects/linux/fxplugins/Makefi
  SOURCES = fxplugins.c                        \
            progressbuffer/progressbuffer.c    \
            progressbuffer/hlsprogressbuffer.c \
-Index: b/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/Makefile
-===================================================================
 --- a/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/Makefile
 +++ b/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/Makefile
-@@ -70,11 +70,6 @@ PACKAGES_LIBS := $(shell pkg-config --li
+@@ -70,11 +70,6 @@
  
  LDFLAGS = -L$(BUILD_DIR) -lm $(PACKAGES_LIBS) 
  
@@ -46,11 +40,9 @@ Index: b/modules/media/src/main/native/gstreamer/projects/linux/gstreamer-lite/M
  SOURCES = \
       gstreamer/gst/gst.c                                             \
       gstreamer/gst/gstbin.c                                          \
-Index: b/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
-===================================================================
 --- a/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
 +++ b/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
-@@ -67,11 +67,6 @@ CFLAGS  += $(shell dpkg-buildflags --get
+@@ -67,11 +67,6 @@
  CFLAGS  += $(shell dpkg-buildflags --get CFLAGS) -Wall
  LDFLAGS += $(shell dpkg-buildflags --get LDFLAGS)
  
@@ -62,11 +54,9 @@ Index: b/modules/media/src/main/native/jfxmedia/projects/linux/Makefile
  CPP_SOURCES = \
          jni/com_sun_media_jfxmedia_logging_Logger.cpp           \
          jni/JavaBandsHolder.cpp 				\
-Index: b/buildSrc/linux.gradle
-===================================================================
 --- a/buildSrc/linux.gradle
 +++ b/buildSrc/linux.gradle
-@@ -48,10 +48,6 @@ def commonFlags = [
+@@ -48,10 +48,6 @@
  commonFlags.addAll("dpkg-buildflags --get CPPFLAGS  ".execute().text.trim().split(" "))
  commonFlags.addAll("dpkg-buildflags --get CXXFLAGS".execute().text.trim().split(" "))
  
@@ -77,7 +67,7 @@ Index: b/buildSrc/linux.gradle
  // Specify the compilation parameters and link parameters
  def ccFlags = [
          commonFlags, "-I$JDK_HOME/include", "-I$JDK_HOME/include/linux", "-c",
-@@ -179,20 +175,12 @@ LINUX.launcher.compiler = compiler
+@@ -179,20 +175,12 @@
  LINUX.launcher.ccFlags = ["-DJAVAARCH=\"$OS_ARCH\"", "-I$JDK_HOME/include", "-I$JDK_HOME/include/linux", "-c"]
  LINUX.launcher.linker = linker
  LINUX.launcher.linkFlags = ["-ldl"]
@@ -100,9 +90,9 @@ Index: b/buildSrc/linux.gradle
  LINUX.iio.javahInclude = ["com/sun/javafx/iio/**/*"]
 --- a/build.gradle
 +++ b/build.gradle
-@@ -2568,9 +2568,6 @@
-                 } else if (t.name == "mac") {
-                     // Add any osx specific flags.
+@@ -2556,9 +2556,6 @@
+                     // JFX WebKit needs atleast 10.9 OSX
+                     cmakeArgs = "-DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DCMAKE_OSX_SYSROOT=$MACOSX_SDK_PATH"
                  } else if (t.name == "linux") {
 -                    if (!IS_64) {
 -                        cmakeArgs = "-DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32"

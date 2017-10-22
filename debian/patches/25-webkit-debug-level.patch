@@ -4,12 +4,12 @@ Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: not-needed
 --- a/modules/web/src/main/native/Source/cmake/OptionsCommon.cmake
 +++ b/modules/web/src/main/native/Source/cmake/OptionsCommon.cmake
-@@ -32,6 +32,8 @@
+@@ -43,6 +43,8 @@
      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-expansion-to-defined")
-     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-exceptions -fno-strict-aliasing -fno-rtti")
-     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-strict-aliasing -fno-rtti")
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
 +    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g1")
 +    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g1")
  endif ()
  
- if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND CMAKE_GENERATOR STREQUAL "Ninja")
+ if (COMPILER_IS_CLANG AND CMAKE_GENERATOR STREQUAL "Ninja")

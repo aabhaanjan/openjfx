@@ -62,14 +62,3 @@ Forwarded: no
  	PACKAGES_INCLUDES := $(shell pkg-config --cflags glib-2.0)
  	PACKAGES_LIBS := $(shell pkg-config --libs glib-2.0 gobject-2.0 gmodule-2.0 gthread-2.0)
  
---- a/modules/web/src/main/native/Tools/Scripts/webkitdirs.pm
-+++ b/modules/web/src/main/native/Tools/Scripts/webkitdirs.pm
-@@ -2037,7 +2037,7 @@
-     # Compiler options to keep floating point values consistent
-     # between 32-bit and 64-bit architectures.
-     determineArchitecture();
--    if ($architecture ne "x86_64" && !isARM() && !isCrossCompilation() && !isAnyWindows()) {
-+    if ($architecture eq "i686" && !isARM() && !isCrossCompilation() && !isAnyWindows()) {
-         $ENV{'CXXFLAGS'} = "-march=pentium4 -msse2 -mfpmath=sse " . ($ENV{'CXXFLAGS'} || "");
-     }
- 
