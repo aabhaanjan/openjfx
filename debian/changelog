@@ -1,12 +1,13 @@
-openjfx (8u161-b12-1) UNRELEASED; urgency=medium
+openjfx (8u161-b12-1) unstable; urgency=medium
 
   * Team upload.
   * New upstream release:
+    - Fixes CVE-2018-2581 (Closes: #888530)
     - Refreshed the patches
   * Standards-Version updated to 4.1.3
   * Switch to debhelper level 11
 
- -- Emmanuel Bourg <ebourg@apache.org>  Wed, 04 Apr 2018 19:31:44 +0200
+ -- Emmanuel Bourg <ebourg@apache.org>  Thu, 05 Apr 2018 00:18:00 +0200
 
 openjfx (8u151-b12-1) unstable; urgency=medium
 
