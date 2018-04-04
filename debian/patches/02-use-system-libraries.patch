@@ -3,7 +3,7 @@ Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: not-needed
 --- a/build.gradle
 +++ b/build.gradle
-@@ -1299,7 +1299,7 @@
+@@ -1306,7 +1306,7 @@
  
      dependencies {
          compile project(":base"), BUILD_SRC
@@ -12,7 +12,7 @@ Forwarded: not-needed
          stubCompile group: "junit", name: "junit", version: "4.8.2",
          project(":base").sourceSets.test.output, sourceSets.main.output
          antlr3 group: "org.antlr", name: "antlr", version: "3.1.3"
-@@ -1680,7 +1680,7 @@
+@@ -1687,7 +1687,7 @@
      }
      dependencies {
          compile BUILD_SRC, project(":base"), project(":graphics")
@@ -21,7 +21,7 @@ Forwarded: not-needed
      }
  }
  
-@@ -2043,13 +2043,13 @@
+@@ -2050,13 +2050,13 @@
      classes << {
          // Copy all of the download libraries to libs directory for the sake of the IDEs
          File libsDir = rootProject.file("build/libs");

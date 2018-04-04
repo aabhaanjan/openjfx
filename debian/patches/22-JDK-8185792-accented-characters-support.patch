@@ -4,7 +4,7 @@ Bug: https://bugs.openjdk.java.net/browse/JDK-8185792
 Bug-Debian: https://bugs.debian.org/872619
 --- a/modules/swing/src/main/java/javafx/embed/swing/JFXPanel.java
 +++ b/modules/swing/src/main/java/javafx/embed/swing/JFXPanel.java
-@@ -640,11 +640,15 @@
+@@ -674,11 +674,15 @@
      private void sendInputMethodEventToFX(InputMethodEvent e) {
          String t = InputMethodSupport.getTextForEvent(e);
  

@@ -3,7 +3,7 @@ Author: Emmanuel Bourg <ebourg@apache.org>
 Forwarded: no
 --- a/build.gradle
 +++ b/build.gradle
-@@ -1245,7 +1245,7 @@
+@@ -1252,7 +1252,7 @@
      // We need to take the VersionInfo.java file and replace the various
      // properties within it
      def replacements = [
